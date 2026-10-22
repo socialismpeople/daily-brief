@@ -72,8 +72,8 @@ body::before{
     0 10px 34px -6px rgb(0 0 0 / .34),
     0 2px 8px -2px rgb(0 0 0 / .22);
   transition:
-    transform .42s cubic-bezier(.22,.61,.36,1),
-    box-shadow .42s cubic-bezier(.22,.61,.36,1),
+    transform .48s cubic-bezier(.34,1.56,.64,1),
+    box-shadow .48s cubic-bezier(.34,1.56,.64,1),
     background-image .42s ease;
   will-change:transform;
 }
@@ -164,9 +164,12 @@ header.hero .sub{margin-top:11px;font-size:14px;color:rgb(255 255 255 / .66)}
   from{opacity:0;transform:translateY(20px) scale(.985)}
   to{opacity:1;transform:none}
 }
-.card:hover{transform:translateY(-6px) scale(1.006)}
+.card:hover{
+  transform:translateY(-8px) scale(1.028);
+  z-index:2;
+}
 /* 按下时轻微回弹 */
-.card:active{transform:translateY(-2px) scale(.997);transition-duration:.1s}
+.card:active{transform:translateY(-4px) scale(.99);transition-duration:.12s}
 
 /* 鼠标跟随高光 */
 .card::after{
@@ -303,7 +306,7 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255 / .85)}
   .r-sm{border-radius:14px}
   footer.site{flex-direction:column;align-items:flex-start;gap:6px}
   /* 移动端禁用 hover 位移，避免误触 */
-  .card:hover,.glass:hover{transform:none}
+  .card:hover,.glass:hover{transform:none;z-index:auto}
   .card::after{display:none}
 }
 @media(prefers-reduced-motion:reduce){
@@ -325,7 +328,7 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255 / .85)}
 <a class="back glass r-sm" href="../index.html">← 返回最新</a>
 <article class="glass card r-md">
 <div class="row"><span class="idx">01</span>
-<span class="src">极客公园</span><span class="time">2.8h 前</span></div>
+<span class="src">极客公园</span><span class="time">2.9h 前</span></div>
 <h2><a href="http://www.geekpark.net/news/372743" target="_blank" rel="noopener">大模型内卷之后，AI 竞争进入搜索基础设施时代</a></h2>
 <p class="brief">头图来源：元宝搜索 过去一年，AI 行业的战场正在悄悄发生位移</p>
 
@@ -349,7 +352,7 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255 / .85)}
 </article>
 <article class="glass card r-md">
 <div class="row"><span class="idx">04</span>
-<span class="src">36氪快讯</span><span class="time">0.9h 前</span></div>
+<span class="src">36氪快讯</span><span class="time">1.0h 前</span></div>
 <h2><a href="https://www.36kr.com/newsflashes/4036868349416329" target="_blank" rel="noopener">美国多家银行监测：未经许可第三方AI智能体访问客户账户</a></h2>
 <p class="brief">据消息人士透露，美国多家大型银行侦测到未获许可的第三方AI智能体在客户账户内运行，部分智能体试图执行操作，而这些操作看似脱离了用户指令</p>
 
@@ -365,7 +368,7 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255 / .85)}
 </article>
 <article class="glass card r-md">
 <div class="row"><span class="idx">06</span>
-<span class="src">少数派</span><span class="time">1.9h 前</span></div>
+<span class="src">少数派</span><span class="time">2.0h 前</span></div>
 <h2><a href="https://sspai.com/post/115437" target="_blank" rel="noopener">把 Muse 装进 ESP-Mosaico：做一个没用的东西，证明 Vibe Coding 也在硬件领域快速成长</a></h2>
 <p class="brief">Matrix首页推荐Matrix是少数派的写作社区，我们主张分享真实的产品体验，有实用价值的经验与思考</p>
 
