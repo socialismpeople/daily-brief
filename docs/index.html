@@ -6,110 +6,149 @@
 <title>10月22日 星期四 · 我的每日简报</title>
 <meta name="description" content="每天 6 条，读完就够">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme:light)">
-<meta name="theme-color" content="#202b38" media="(prefers-color-scheme:dark)">
-<link rel="stylesheet" href="assets/water.css">
+<meta name="theme-color" content="#fffefb" media="(prefers-color-scheme:light)">
+<meta name="theme-color" content="#14130f" media="(prefers-color-scheme:dark)">
+<link rel="stylesheet" href="assets/marx.css">
 <style>
 :root{
-  --brand:#b8543f;
-  --brand-soft:#f7ece8;
-  --rule:rgba(128,128,128,.20);
-  --card:rgba(128,128,128,.035);
+  --ink:#1a1a1a;
+  --ink-soft:#5c5c5c;
+  --ink-faint:#9a9a9a;
+  --paper:#fffefb;
+  --rule:rgba(0,0,0,.10);
+  --brand:#b3402e;
 }
 @media(prefers-color-scheme:dark){
-  :root{ --brand:#e08668; --brand-soft:#2b1d18; --card:rgba(255,255,255,.035); }
+  :root{
+    --ink:#e8e6e1;
+    --ink-soft:#a8a5a0;
+    --ink-faint:#6e6b66;
+    --paper:#14130f;
+    --rule:rgba(255,255,255,.12);
+    --brand:#e0775c;
+  }
 }
-body{ -webkit-font-smoothing:antialiased; }
-.wrap{ max-width:680px; margin:0 auto; padding:52px 22px 84px; }
+html{ background:var(--paper); }
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",
+    "Hiragino Sans GB","Noto Sans SC","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.78;
+}
+.wrap{ max-width:660px; margin:0 auto; padding:64px 26px 88px; }
 
 /* 顶部 */
-header.site{ margin-bottom:6px; }
-.kicker{ display:flex; align-items:center; gap:9px; margin:0 0 13px;
-  font-size:11px; letter-spacing:1.7px; text-transform:uppercase;
-  font-weight:700; color:var(--brand); }
-.kicker::before{ content:""; width:7px; height:7px; border-radius:50%;
-  background:var(--brand); box-shadow:0 0 0 4px var(--brand-soft); }
-header.site h1{ margin:0 0 9px; font-size:27px; line-height:1.25;
-  letter-spacing:-.6px; font-weight:750; }
-header.site .sub{ margin:0; font-size:14.5px; color:var(--text-main); opacity:.62; }
+header.site{ margin-bottom:38px; }
+header.site .kicker{
+  font-size:10.5px; letter-spacing:2.2px; text-transform:uppercase;
+  font-weight:650; color:var(--ink-faint); margin:0 0 14px;
+}
+header.site h1{
+  font-size:29px; line-height:1.22; letter-spacing:-.7px;
+  font-weight:750; margin:0 0 10px; color:var(--ink);
+}
+header.site .sub{
+  font-size:14px; color:var(--ink-soft); margin:0; line-height:1.6;
+}
 
 /* 日期条 */
-.dateline{ display:flex; justify-content:space-between; align-items:baseline;
-  margin:26px 0 4px; padding-top:18px; border-top:1px solid var(--rule);
-  font-size:13px; color:var(--text-main); opacity:.62;
-  font-variant-numeric:tabular-nums; }
-.dateline strong{ font-size:14px; opacity:.95; font-weight:650; }
+.dateline{
+  display:flex; justify-content:space-between; align-items:baseline;
+  padding:16px 0 18px; margin:0 0 8px;
+  border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+  font-size:12.5px; color:var(--ink-faint);
+  font-variant-numeric:tabular-nums; letter-spacing:.3px;
+}
+.dateline strong{
+  font-size:13px; font-weight:650; color:var(--ink-soft);
+}
 
-/* 条目卡片 */
-article.entry{
-  position:relative; margin:14px 0; padding:20px 22px;
-  background:var(--card); border:1px solid var(--rule); border-radius:14px;
-  transition:border-color .18s ease, transform .18s ease, background .18s ease;
+/* 条目 */
+article.entry{ padding:28px 0 26px; border-bottom:1px solid var(--rule); }
+article.entry:last-of-type{ border-bottom:none; }
+article.entry .num{ display:none; }
+article.entry h2{
+  margin:0 0 10px; font-size:18px; line-height:1.48;
+  letter-spacing:-.2px; font-weight:680;
 }
-article.entry:hover{ border-color:var(--brand); transform:translateY(-2px); }
-article.entry .num{
-  display:inline-flex; align-items:center; justify-content:center;
-  min-width:22px; height:22px; padding:0 6px; margin:0 0 10px;
-  border-radius:7px; background:var(--brand-soft); color:var(--brand);
-  font-size:11.5px; font-weight:700; font-variant-numeric:tabular-nums;
-  line-height:1;
+article.entry h2 a{
+  color:var(--ink); text-decoration:none;
+  background-image:linear-gradient(var(--rule),var(--rule));
+  background-size:0% 1px; background-position:0 100%;
+  background-repeat:no-repeat;
+  transition:background-size .25s ease,color .2s ease;
 }
-article.entry h2{ margin:0 0 9px; font-size:17.5px; line-height:1.5;
-  letter-spacing:-.15px; font-weight:650; }
-article.entry h2 a{ color:var(--text-bright); text-decoration:none;
-  transition:color .15s ease; }
-article.entry h2 a:hover{ color:var(--brand); }
-article.entry p.brief{ margin:0 0 10px; font-size:14.5px; line-height:1.72;
-  color:var(--text-main); opacity:.74; }
-article.entry .why{ margin:11px 0 0; padding:9px 13px; border-radius:10px;
-  background:var(--brand-soft); border-left:2px solid var(--brand);
-  font-size:13.5px; line-height:1.62; color:var(--text-main); }
-article.entry .meta{ display:flex; align-items:center; gap:10px; flex-wrap:wrap;
-  margin:13px 0 0; font-size:12.5px; color:var(--text-main); opacity:.55;
-  font-variant-numeric:tabular-nums; }
-article.entry .tag{ padding:2px 9px; border-radius:999px;
-  border:1px solid var(--rule); font-size:11.5px; }
-article.entry .go{ margin-left:auto; color:var(--brand); text-decoration:none;
-  font-weight:600; opacity:1; }
-article.entry .go:hover{ text-decoration:underline; }
+article.entry h2 a:hover{
+  color:var(--brand);
+  background-size:100% 1px;
+}
+article.entry p.brief{
+  margin:0 0 10px; font-size:15px; line-height:1.75;
+  color:var(--ink-soft);
+}
+article.entry .why{
+  margin:11px 0 0; padding-left:14px;
+  border-left:2px solid var(--brand);
+  font-size:13.5px; line-height:1.68; color:var(--ink-soft);
+  font-style:italic;
+}
+article.entry .meta{
+  display:flex; align-items:center; gap:9px; flex-wrap:wrap;
+  margin:14px 0 0; font-size:12px; color:var(--ink-faint);
+  letter-spacing:.2px; font-variant-numeric:tabular-nums;
+}
+article.entry .tag{ color:var(--ink-soft); font-weight:600; }
+article.entry .go{
+  margin-left:auto; color:var(--ink-faint); text-decoration:none;
+  transition:color .15s ease;
+}
+article.entry .go:hover{ color:var(--brand); }
 
 /* 空状态 */
-.empty{ margin:34px 0; padding:64px 22px; text-align:center; border-radius:14px;
-  border:1px dashed var(--rule); color:var(--text-main); opacity:.6; }
+.empty{
+  padding:64px 20px; text-align:center;
+  color:var(--ink-faint); font-size:14.5px; line-height:1.8;
+}
 
 /* 页脚 */
-footer.site{ display:flex; justify-content:space-between; align-items:center;
-  gap:12px; flex-wrap:wrap; margin-top:48px; padding-top:24px;
-  border-top:1px solid var(--rule); font-size:12.5px;
-  color:var(--text-main); opacity:.52; }
-footer.site a{ color:inherit; text-decoration:none; }
-footer.site a:hover{ color:var(--brand); opacity:1; }
+footer.site{
+  display:flex; justify-content:space-between; align-items:center;
+  gap:12px; flex-wrap:wrap;
+  margin-top:52px; padding-top:22px; border-top:1px solid var(--rule);
+  font-size:12px; color:var(--ink-faint); letter-spacing:.2px;
+}
+footer.site a{ color:var(--ink-faint); text-decoration:none; }
+footer.site a:hover{ color:var(--brand); }
 
-/* 归档列表 */
-.back{ display:inline-flex; align-items:center; gap:6px; margin:20px 0 26px;
-  padding:6px 14px 6px 10px; border:1px solid var(--rule); border-radius:999px;
-  font-size:13.5px; color:var(--text-main); text-decoration:none;
-  transition:color .15s ease, border-color .15s ease; }
-.back:hover{ color:var(--brand); border-color:var(--brand); }
+/* 归档 */
+.back{
+  display:inline-block; margin:0 0 30px;
+  font-size:13px; color:var(--ink-faint); text-decoration:none;
+  transition:color .15s ease;
+}
+.back:hover{ color:var(--brand); }
 ul.arch{ list-style:none; margin:0; padding:0; }
 ul.arch li{ margin:0; }
-ul.arch a{ display:flex; justify-content:space-between; align-items:center;
-  padding:13px 2px; border-bottom:1px solid var(--rule);
-  color:var(--text-bright); text-decoration:none; font-size:14.5px;
-  font-variant-numeric:tabular-nums; transition:padding .15s ease, color .15s ease; }
-ul.arch a:hover{ color:var(--brand); padding-left:8px; }
-ul.arch .arrow{ color:var(--text-main); opacity:.4; font-size:13px; }
+ul.arch a{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:15px 0; border-bottom:1px solid var(--rule);
+  color:var(--ink); text-decoration:none; font-size:15px;
+  font-variant-numeric:tabular-nums;
+  transition:color .15s ease,padding-left .18s ease;
+}
+ul.arch a:hover{ color:var(--brand); padding-left:6px; }
+ul.arch .arrow{ color:var(--ink-faint); font-size:13px; }
 
 @media(max-width:560px){
-  .wrap{ padding:40px 18px 64px; }
-  header.site h1{ font-size:23px; }
-  article.entry{ padding:17px 17px; border-radius:12px; }
+  .wrap{ padding:44px 20px 68px; }
+  header.site h1{ font-size:24px; }
+  article.entry{ padding:24px 0 22px; }
   article.entry h2{ font-size:16.5px; }
   footer.site{ flex-direction:column; align-items:flex-start; gap:6px; }
 }
 @media(prefers-reduced-motion:reduce){
   *{ transition:none !important; }
-  article.entry:hover{ transform:none; }
 }
 </style>
 
@@ -126,69 +165,63 @@ ul.arch .arrow{ color:var(--text-main); opacity:.4; font-size:13px; }
 <span>共 6 条</span>
 </div>
 <article class="entry">
-<div class="num">01</div>
-<h2><a href="https://www.infoq.cn/article/Ei2spcFKComKqkPv6osN" target="_blank" rel="noopener">企业有需求，FDE 团队有能力，为什么 AI 项目仍难落地？</a></h2>
+<h2><a href="http://www.geekpark.net/news/372743" target="_blank" rel="noopener">大模型内卷之后，AI 竞争进入搜索基础设施时代</a></h2>
+<p class="brief">头图来源：元宝搜索 过去一年，AI 行业的战场正在悄悄发生位移</p>
+
+<div class="meta">
+<span class="tag">极客公园</span>
+<span>2.0h 前</span>
+<a class="go" href="http://www.geekpark.net/news/372743" target="_blank" rel="noopener">原文 →</a>
+</div>
+</article>
+<article class="entry">
+<h2><a href="https://www.infoq.cn/article/v85ey09UlxhCDH4r3RS3" target="_blank" rel="noopener">企业 AI 越用越复杂，如何用一个 Gateway 管好模型、Agent 和成本？｜ 技术趋势</a></h2>
 
 
 <div class="meta">
 <span class="tag">InfoQ 中文</span>
 <span>0.0h 前</span>
-<a class="go" href="https://www.infoq.cn/article/Ei2spcFKComKqkPv6osN" target="_blank" rel="noopener">原文 →</a>
+<a class="go" href="https://www.infoq.cn/article/v85ey09UlxhCDH4r3RS3" target="_blank" rel="noopener">原文 →</a>
 </div>
 </article>
 <article class="entry">
-<div class="num">02</div>
-<h2><a href="https://www.infoq.cn/article/glAvFT7PWdZ53mbgPbgC" target="_blank" rel="noopener">AI把整个软件生态打成筛子，全栈开发者的至暗时刻</a></h2>
-
+<h2><a href="http://www.geekpark.net/news/372746" target="_blank" rel="noopener">AI 漫剧越做越快，赚钱却没那么容易了</a></h2>
+<p class="brief">「一个创作者加上 IP 和 AI 工具，就能完成漫剧创作全流程</p>
 
 <div class="meta">
-<span class="tag">InfoQ 中文</span>
-<span>0.0h 前</span>
-<a class="go" href="https://www.infoq.cn/article/glAvFT7PWdZ53mbgPbgC" target="_blank" rel="noopener">原文 →</a>
+<span class="tag">极客公园</span>
+<span>1.9h 前</span>
+<a class="go" href="http://www.geekpark.net/news/372746" target="_blank" rel="noopener">原文 →</a>
 </div>
 </article>
 <article class="entry">
-<div class="num">03</div>
-<h2><a href="https://www.36kr.com/newsflashes/4036861106738053" target="_blank" rel="noopener">《证券投资基金停牌股票投资估值指引》等八项自律规则公开征求意见</a></h2>
-<p class="brief">36氪获悉，为了进一步规范基金估值业务，中国证券投资基金业协会（以下简称协会）对已发布的《关于发布中基协（AMAC）基金行业股票估值指数的通知》《黄金交易型开放</p>
+<h2><a href="https://www.36kr.com/newsflashes/4036868349416329" target="_blank" rel="noopener">美国多家银行监测：未经许可第三方AI智能体访问客户账户</a></h2>
+<p class="brief">据消息人士透露，美国多家大型银行侦测到未获许可的第三方AI智能体在客户账户内运行，部分智能体试图执行操作，而这些操作看似脱离了用户指令</p>
 
 <div class="meta">
 <span class="tag">36氪快讯</span>
-<span>0.3h 前</span>
-<a class="go" href="https://www.36kr.com/newsflashes/4036861106738053" target="_blank" rel="noopener">原文 →</a>
+<span>0.1h 前</span>
+<a class="go" href="https://www.36kr.com/newsflashes/4036868349416329" target="_blank" rel="noopener">原文 →</a>
 </div>
 </article>
 <article class="entry">
-<div class="num">04</div>
-<h2><a href="https://globus.software/blog/2026/10/16/cutting-map-polygons" target="_blank" rel="noopener">Faster than earcut: triangulating 3.7M map polygons in 489 ms</a></h2>
-
+<h2><a href="https://www.tmtpost.com/8177297.html" target="_blank" rel="noopener">打通Dots与核心Infra团队，慢一步的小红书会加快AI进程吗？</a></h2>
+<p class="brief">从2023年开始至今，大模型行业已经百模大战，深入到Agent、生态比拼</p>
 
 <div class="meta">
-<span class="tag">Hacker News</span>
-<span>0.5h 前</span>
-<a class="go" href="https://globus.software/blog/2026/10/16/cutting-map-polygons" target="_blank" rel="noopener">原文 →</a>
+<span class="tag">钛媒体</span>
+<span>2.4h 前</span>
+<a class="go" href="https://www.tmtpost.com/8177297.html" target="_blank" rel="noopener">原文 →</a>
 </div>
 </article>
 <article class="entry">
-<div class="num">05</div>
-<h2><a href="https://sspai.com/post/116953" target="_blank" rel="noopener">派早报：荣耀发布 WIN2 系列新品、Google 开源 TorchTPU 等</a></h2>
-
-
-<div class="meta">
-<span class="tag">少数派</span>
-<span>9.6h 前</span>
-<a class="go" href="https://sspai.com/post/116953" target="_blank" rel="noopener">原文 →</a>
-</div>
-</article>
-<article class="entry">
-<div class="num">06</div>
-<h2><a href="https://www.36kr.com/newsflashes/4036832250680451" target="_blank" rel="noopener">源杰科技：订单交付正常，市场需求旺盛</a></h2>
-<p class="brief">今日光通信板块整体回调，源杰科技股价也出现大跌</p>
+<h2><a href="https://www.36kr.com/newsflashes/4036850026337409" target="_blank" rel="noopener">国家发改委发布对外投资管理办法</a></h2>
+<p class="brief">36氪获悉，国家发改委发布对外投资管理办法</p>
 
 <div class="meta">
 <span class="tag">36氪快讯</span>
-<span>0.7h 前</span>
-<a class="go" href="https://www.36kr.com/newsflashes/4036832250680451" target="_blank" rel="noopener">原文 →</a>
+<span>0.6h 前</span>
+<a class="go" href="https://www.36kr.com/newsflashes/4036850026337409" target="_blank" rel="noopener">原文 →</a>
 </div>
 </article>
 <footer class="site">
