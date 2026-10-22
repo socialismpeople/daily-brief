@@ -36,7 +36,7 @@ body::before{
   background:var(--overlay);
   pointer-events:none;
 }
-.wrap{position:relative;z-index:1;max-width:700px;margin:0 auto}
+.wrap{position:relative;z-index:1;max-width:700px;margin:0 auto;padding:0 10px}
 
 /* ============ Apple 式连续圆角 ============ */
 .r-lg{border-radius:28px}
@@ -124,9 +124,18 @@ body::before{
 
 /* ============ 头部 ============ */
 header.hero{
-  padding:38px 28px;text-align:center;margin-bottom:16px;
+  padding:38px 28px;text-align:center;margin-bottom:18px;
+  --hero-scale:1.15;
+  transform:translateZ(0);
+  transition:
+    transform .5s cubic-bezier(.34,1.7,.5,1),
+    box-shadow .5s cubic-bezier(.34,1.7,.5,1);
+  will-change:transform;
 }
-header.hero:hover{transform:translateY(-3px)}
+header.hero:hover{
+  transform:translateY(-4px) scale(var(--hero-scale)) translateZ(0);
+  z-index:20;
+}
 .kicker{
   font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;
   font-weight:700;color:rgb(255 255 255 / .58);margin-bottom:13px;
@@ -139,7 +148,7 @@ header.hero .sub{margin-top:11px;font-size:14px;color:rgb(255 255 255 / .66)}
 
 /* ============ 日期条 ============ */
 .dateline{
-  padding:13px 20px;margin-bottom:16px;
+  padding:13px 20px;margin-bottom:22px;
   display:flex;justify-content:space-between;align-items:center;
   font-size:12.5px;color:rgb(255 255 255 / .72);
   font-variant-numeric:tabular-nums;
@@ -148,7 +157,7 @@ header.hero .sub{margin-top:11px;font-size:14px;color:rgb(255 255 255 / .66)}
 
 /* ============ 卡片 ============ */
 .card{
-  padding:24px 26px;margin-bottom:14px;
+  padding:24px 26px;margin-bottom:24px;
   opacity:0;
   animation:rise .68s cubic-bezier(.22,.61,.36,1) forwards;
   /* 关键：用 translateZ 提升到独立合成层，缩放时不重算 backdrop-filter */
@@ -284,7 +293,7 @@ ul.arch{list-style:none}
 ul.arch li{margin:0}
 ul.arch a{
   display:flex;justify-content:space-between;align-items:center;
-  padding:16px 20px;margin-bottom:10px;
+  padding:16px 20px;margin-bottom:14px;
   color:#fff;text-decoration:none;font-size:14.5px;
   font-variant-numeric:tabular-nums;
   transition:all .32s cubic-bezier(.22,.61,.36,1);
@@ -296,6 +305,9 @@ ul.arch .arrow{color:rgb(255 255 255 / .45);font-size:13px;
 ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255 / .85)}
 
 /* ============ 响应式 ============ */
+@media(max-width:820px){
+  header.hero{--hero-scale:1.06}
+}
 @media(max-width:600px){
   body{padding:30px 12px 56px;background-attachment:scroll}
   header.hero{padding:28px 20px}
@@ -307,7 +319,7 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255 / .85)}
   .r-sm{border-radius:14px}
   footer.site{flex-direction:column;align-items:flex-start;gap:6px}
   /* 移动端禁用 hover 位移，避免误触 */
-  .card:hover,.glass:hover{transform:none;z-index:auto}
+  .card:hover,.glass:hover,header.hero:hover{transform:none;z-index:auto}
   .card::after{display:none}
 }
 @media(prefers-reduced-motion:reduce){
@@ -331,51 +343,51 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255 / .85)}
 </div>
 <article class="glass card r-md">
 <div class="row"><span class="idx">01</span>
-<span class="src">爱范儿</span><span class="time">0.0h 前</span></div>
-<h2><a href="https://www.ifanr.com/1685507" target="_blank" rel="noopener">OpenAI 发现 PHP「世纪漏洞」，全球 70% 网站都危险了</a></h2>
-<p class="brief">大的还在后面 #欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上</p>
+<span class="src">极客公园</span><span class="time">3.1h 前</span></div>
+<h2><a href="http://www.geekpark.net/news/372743" target="_blank" rel="noopener">大模型内卷之后，AI 竞争进入搜索基础设施时代</a></h2>
+<p class="brief">头图来源：元宝搜索 过去一年，AI 行业的战场正在悄悄发生位移</p>
 
-<a class="go" href="https://www.ifanr.com/1685507" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+<a class="go" href="http://www.geekpark.net/news/372743" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <article class="glass card r-md">
 <div class="row"><span class="idx">02</span>
-<span class="src">36氪快讯</span><span class="time">0.7h 前</span></div>
-<h2><a href="https://www.36kr.com/newsflashes/4036890851054720" target="_blank" rel="noopener">欧盟接近达成证券化改革方案，力争释放数十亿欧元资金</a></h2>
-<p class="brief">欧盟就改革其证券化市场监管规则达成初步协议，这项协议有望释放数十亿欧元资金，为国防和气候韧性等关键领域的项目提供融资</p>
+<span class="src">InfoQ 中文</span><span class="time">0.0h 前</span></div>
+<h2><a href="https://www.infoq.cn/article/wyGrRsTrfHM7i9MhuV5P" target="_blank" rel="noopener">又一国产决策模型发布：面向企业高频判断任务，23 项开源基测准确率超过微软和 JEV</a></h2>
 
-<a class="go" href="https://www.36kr.com/newsflashes/4036890851054720" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+
+<a class="go" href="https://www.infoq.cn/article/wyGrRsTrfHM7i9MhuV5P" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <article class="glass card r-md">
 <div class="row"><span class="idx">03</span>
-<span class="src">36氪快讯</span><span class="time">0.0h 前</span></div>
-<h2><a href="https://www.36kr.com/newsflashes/4036948452611205" target="_blank" rel="noopener">长电科技：第三季度归母净利润7.73亿元，同比增长59.99%</a></h2>
-<p class="brief">36氪获悉，长电科技公告，第三季度实现营收114</p>
+<span class="src">InfoQ 中文</span><span class="time">0.0h 前</span></div>
+<h2><a href="https://www.infoq.cn/article/v85ey09UlxhCDH4r3RS3" target="_blank" rel="noopener">企业 AI 越用越复杂，如何用一个 Gateway 管好模型、Agent 和成本？｜ 技术趋势</a></h2>
 
-<a class="go" href="https://www.36kr.com/newsflashes/4036948452611205" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+
+<a class="go" href="https://www.infoq.cn/article/v85ey09UlxhCDH4r3RS3" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <article class="glass card r-md">
 <div class="row"><span class="idx">04</span>
-<span class="src">钛媒体</span><span class="time">3.2h 前</span></div>
-<h2><a href="https://www.tmtpost.com/8177437.html" target="_blank" rel="noopener">万播收益低至5元，AI短剧的生意为何越做越亏？</a></h2>
+<span class="src">极客公园</span><span class="time">3.0h 前</span></div>
+<h2><a href="http://www.geekpark.net/news/372746" target="_blank" rel="noopener">AI 漫剧越做越快，赚钱却没那么容易了</a></h2>
+<p class="brief">「一个创作者加上 IP 和 AI 工具，就能完成漫剧创作全流程</p>
 
-
-<a class="go" href="https://www.tmtpost.com/8177437.html" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+<a class="go" href="http://www.geekpark.net/news/372746" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <article class="glass card r-md">
 <div class="row"><span class="idx">05</span>
-<span class="src">钛媒体</span><span class="time">3.2h 前</span></div>
-<h2><a href="https://www.tmtpost.com/8177215.html" target="_blank" rel="noopener">腾讯姚顺宇的 AI “加班论”</a></h2>
-<p class="brief">AI牌桌上，情绪正在变得极度焦灼</p>
+<span class="src">36氪快讯</span><span class="time">0.3h 前</span></div>
+<h2><a href="https://www.36kr.com/newsflashes/4036938630566789" target="_blank" rel="noopener">落地真实工业工况，宸境科技物理AI赋能钢厂智能巡检</a></h2>
+<p class="brief">在2026宇树科技合作伙伴生态大会上，宸境科技亮相钢铁行业物理AI巡检方案，瞄准钢厂高危非标作业场景</p>
 
-<a class="go" href="https://www.tmtpost.com/8177215.html" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+<a class="go" href="https://www.36kr.com/newsflashes/4036938630566789" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <article class="glass card r-md">
 <div class="row"><span class="idx">06</span>
-<span class="src">InfoQ 中文</span><span class="time">0.0h 前</span></div>
-<h2><a href="https://www.infoq.cn/article/hy9SMIBOjwjdZ4JduMzL" target="_blank" rel="noopener">Cloudflare 两个月两改追踪定价，开发者该如何控制成本？</a></h2>
+<span class="src">36氪快讯</span><span class="time">0.4h 前</span></div>
+<h2><a href="https://www.36kr.com/newsflashes/4036866955940745" target="_blank" rel="noopener">讯飞输入法16.0发布第三代语音输入“意图成稿”</a></h2>
+<p class="brief">10月22日，在科大讯飞全球1024开发者节期间，讯飞输入法16</p>
 
-
-<a class="go" href="https://www.infoq.cn/article/hy9SMIBOjwjdZ4JduMzL" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+<a class="go" href="https://www.36kr.com/newsflashes/4036866955940745" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <footer class="site glass r-sm">
 <span>我的每日简报</span>
