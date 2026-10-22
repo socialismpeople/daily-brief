@@ -1,134 +1,123 @@
-"""渲染：Markdown 归档 + 静态站点。只依赖标准库。"""
+"""渲染：Markdown 归档 + 静态站点。
+
+基础排版使用 Water.css v2（MIT，https://github.com/kognise/water.css），
+在其上叠一层轻量卡片与排版微调。只依赖标准库。
+"""
 from __future__ import annotations
 
 import html
 import json
+import shutil
 from datetime import datetime
 from pathlib import Path
 
 from .feed import Item
 
-CSS = """
+ROOT = Path(__file__).resolve().parent.parent
+VENDOR_CSS = ROOT / "assets" / "water.css"
+
+# 在 Water.css 之上的一层：卡片、编号、来源行、归档列表
+THEME_CSS = """
 :root{
-  --bg:#f7f7f5; --fg:#17171a; --muted:#77777f; --faint:#a0a0a8;
-  --line:#e6e6e2; --card:#ffffff; --accent:#c8553d; --accent-soft:#f6ece8;
-  --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px -12px rgba(0,0,0,.10);
-  --radius:16px;
+  --brand:#b8543f;
+  --brand-soft:#f7ece8;
+  --rule:rgba(128,128,128,.20);
+  --card:rgba(128,128,128,.035);
 }
 @media(prefers-color-scheme:dark){
-  :root{
-    --bg:#0f0f11; --fg:#ececee; --muted:#8e8e96; --faint:#63636b;
-    --line:#242428; --card:#17171a; --accent:#e0785f; --accent-soft:#2a1e1a;
-    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
-  }
+  :root{ --brand:#e08668; --brand-soft:#2b1d18; --card:rgba(255,255,255,.035); }
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-text-size-adjust:100%}
-body{
-  background:var(--bg);color:var(--fg);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei",sans-serif;
-  line-height:1.7;-webkit-font-smoothing:antialiased;
-  font-feature-settings:"kern" 1;
-}
-.wrap{max-width:680px;margin:0 auto;padding:0 24px}
+body{ -webkit-font-smoothing:antialiased; }
+.wrap{ max-width:680px; margin:0 auto; padding:52px 22px 84px; }
 
-/* ---------- 顶部 ---------- */
-header.site{padding:64px 0 32px}
-.brand{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-.dot{width:9px;height:9px;border-radius:50%;background:var(--accent);
-  box-shadow:0 0 0 4px var(--accent-soft);flex:none}
-header.site h1{font-size:27px;font-weight:750;letter-spacing:-.7px;line-height:1.25}
-header.site .sub{margin-top:9px;color:var(--muted);font-size:14.5px;letter-spacing:.1px}
+/* 顶部 */
+header.site{ margin-bottom:6px; }
+.kicker{ display:flex; align-items:center; gap:9px; margin:0 0 13px;
+  font-size:11px; letter-spacing:1.7px; text-transform:uppercase;
+  font-weight:700; color:var(--brand); }
+.kicker::before{ content:""; width:7px; height:7px; border-radius:50%;
+  background:var(--brand); box-shadow:0 0 0 4px var(--brand-soft); }
+header.site h1{ margin:0 0 9px; font-size:27px; line-height:1.25;
+  letter-spacing:-.6px; font-weight:750; }
+header.site .sub{ margin:0; font-size:14.5px; color:var(--text-main); opacity:.62; }
 
-/* ---------- 日期条 ---------- */
-.dateline{
-  display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
-  padding:18px 0 20px;border-top:1px solid var(--line);
-  font-size:13px;color:var(--muted);
-}
-.dateline .d{font-size:14px;font-weight:600;color:var(--fg);letter-spacing:.3px;
-  font-variant-numeric:tabular-nums}
-.dateline .n{margin-left:auto;font-variant-numeric:tabular-nums}
+/* 日期条 */
+.dateline{ display:flex; justify-content:space-between; align-items:baseline;
+  margin:26px 0 4px; padding-top:18px; border-top:1px solid var(--rule);
+  font-size:13px; color:var(--text-main); opacity:.62;
+  font-variant-numeric:tabular-nums; }
+.dateline strong{ font-size:14px; opacity:.95; font-weight:650; }
 
-/* ---------- 条目 ---------- */
-.entry{
-  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-  padding:22px 24px;margin-bottom:14px;box-shadow:var(--shadow);
-  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+/* 条目卡片 */
+article.entry{
+  position:relative; margin:14px 0; padding:20px 22px;
+  background:var(--card); border:1px solid var(--rule); border-radius:14px;
+  transition:border-color .18s ease, transform .18s ease, background .18s ease;
 }
-.entry:hover{transform:translateY(-2px);border-color:var(--accent);
-  box-shadow:0 2px 4px rgba(0,0,0,.05),0 14px 32px -14px rgba(0,0,0,.18)}
-.entry .idx{
-  display:inline-flex;align-items:center;justify-content:center;
-  min-width:22px;height:22px;padding:0 6px;border-radius:7px;
-  background:var(--accent-soft);color:var(--accent);
-  font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;
-  margin-bottom:11px;
+article.entry:hover{ border-color:var(--brand); transform:translateY(-2px); }
+article.entry .num{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:22px; height:22px; padding:0 6px; margin:0 0 10px;
+  border-radius:7px; background:var(--brand-soft); color:var(--brand);
+  font-size:11.5px; font-weight:700; font-variant-numeric:tabular-nums;
+  line-height:1;
 }
-.entry h2{font-size:17.5px;font-weight:650;line-height:1.5;letter-spacing:-.15px}
-.entry h2 a{color:var(--fg);text-decoration:none;transition:color .15s}
-.entry h2 a:hover{color:var(--accent)}
-.brief{margin-top:9px;font-size:14.5px;color:var(--muted);line-height:1.72}
-.why{
-  margin-top:11px;padding:9px 13px;border-radius:10px;
-  background:var(--accent-soft);border-left:2px solid var(--accent);
-  font-size:13.5px;color:var(--fg);opacity:.92;line-height:1.6;
-}
-.meta{
-  margin-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-  font-size:12.5px;color:var(--faint);
-}
-.tag{
-  padding:2px 9px;border-radius:999px;background:var(--bg);
-  border:1px solid var(--line);color:var(--muted);font-size:11.5px;font-weight:500;
-}
-.meta .go{margin-left:auto;color:var(--accent);text-decoration:none;font-weight:600;
-  font-size:12.5px;transition:gap .15s}
-.meta .go:hover{text-decoration:underline}
+article.entry h2{ margin:0 0 9px; font-size:17.5px; line-height:1.5;
+  letter-spacing:-.15px; font-weight:650; }
+article.entry h2 a{ color:var(--text-bright); text-decoration:none;
+  transition:color .15s ease; }
+article.entry h2 a:hover{ color:var(--brand); }
+article.entry p.brief{ margin:0 0 10px; font-size:14.5px; line-height:1.72;
+  color:var(--text-main); opacity:.74; }
+article.entry .why{ margin:11px 0 0; padding:9px 13px; border-radius:10px;
+  background:var(--brand-soft); border-left:2px solid var(--brand);
+  font-size:13.5px; line-height:1.62; color:var(--text-main); }
+article.entry .meta{ display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  margin:13px 0 0; font-size:12.5px; color:var(--text-main); opacity:.55;
+  font-variant-numeric:tabular-nums; }
+article.entry .tag{ padding:2px 9px; border-radius:999px;
+  border:1px solid var(--rule); font-size:11.5px; }
+article.entry .go{ margin-left:auto; color:var(--brand); text-decoration:none;
+  font-weight:600; opacity:1; }
+article.entry .go:hover{ text-decoration:underline; }
 
-/* ---------- 空状态 ---------- */
-.empty{
-  text-align:center;padding:72px 24px;color:var(--muted);
-  background:var(--card);border:1px dashed var(--line);border-radius:var(--radius);
-}
+/* 空状态 */
+.empty{ margin:34px 0; padding:64px 22px; text-align:center; border-radius:14px;
+  border:1px dashed var(--rule); color:var(--text-main); opacity:.6; }
 
-/* ---------- 页脚 ---------- */
-footer{margin-top:56px;padding:28px 0 64px;border-top:1px solid var(--line);
-  font-size:12.5px;color:var(--faint);display:flex;justify-content:space-between;
-  align-items:center;gap:12px;flex-wrap:wrap}
-footer a{color:var(--muted);text-decoration:none}
-footer a:hover{color:var(--accent)}
+/* 页脚 */
+footer.site{ display:flex; justify-content:space-between; align-items:center;
+  gap:12px; flex-wrap:wrap; margin-top:48px; padding-top:24px;
+  border-top:1px solid var(--rule); font-size:12.5px;
+  color:var(--text-main); opacity:.52; }
+footer.site a{ color:inherit; text-decoration:none; }
+footer.site a:hover{ color:var(--brand); opacity:1; }
 
-/* ---------- 归档页 ---------- */
-.back{
-  display:inline-flex;align-items:center;gap:6px;margin:0 0 22px;
-  font-size:13.5px;color:var(--muted);text-decoration:none;
-  padding:6px 14px 6px 10px;border:1px solid var(--line);border-radius:999px;
-  background:var(--card);transition:all .15s;
-}
-.back:hover{color:var(--accent);border-color:var(--accent)}
-.arch{list-style:none;margin-top:8px}
-.arch li{margin-bottom:2px}
-.arch a{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:13px 4px;border-bottom:1px solid var(--line);
-  color:var(--fg);text-decoration:none;font-size:14.5px;
-  font-variant-numeric:tabular-nums;transition:padding .15s,color .15s;
-}
-.arch a:hover{color:var(--accent);padding-left:8px}
-.arch .arrow{color:var(--faint);font-size:13px}
+/* 归档列表 */
+.back{ display:inline-flex; align-items:center; gap:6px; margin:20px 0 26px;
+  padding:6px 14px 6px 10px; border:1px solid var(--rule); border-radius:999px;
+  font-size:13.5px; color:var(--text-main); text-decoration:none;
+  transition:color .15s ease, border-color .15s ease; }
+.back:hover{ color:var(--brand); border-color:var(--brand); }
+ul.arch{ list-style:none; margin:0; padding:0; }
+ul.arch li{ margin:0; }
+ul.arch a{ display:flex; justify-content:space-between; align-items:center;
+  padding:13px 2px; border-bottom:1px solid var(--rule);
+  color:var(--text-bright); text-decoration:none; font-size:14.5px;
+  font-variant-numeric:tabular-nums; transition:padding .15s ease, color .15s ease; }
+ul.arch a:hover{ color:var(--brand); padding-left:8px; }
+ul.arch .arrow{ color:var(--text-main); opacity:.4; font-size:13px; }
 
 @media(max-width:560px){
-  .wrap{padding:0 18px}
-  header.site{padding:44px 0 24px}
-  header.site h1{font-size:23px}
-  .entry{padding:18px 18px;border-radius:14px}
-  .entry h2{font-size:16.5px}
-  footer{flex-direction:column;align-items:flex-start;gap:6px}
+  .wrap{ padding:40px 18px 64px; }
+  header.site h1{ font-size:23px; }
+  article.entry{ padding:17px 17px; border-radius:12px; }
+  article.entry h2{ font-size:16.5px; }
+  footer.site{ flex-direction:column; align-items:flex-start; gap:6px; }
 }
 @media(prefers-reduced-motion:reduce){
-  *{transition:none!important}
-  .entry:hover{transform:none}
+  *{ transition:none !important; }
+  article.entry:hover{ transform:none; }
 }
 """
 
@@ -187,7 +176,10 @@ def build_push_markdown(items: list[Item], date_str: str, site_url: str = "") ->
     return "\n".join(lines)
 
 
-def _render_page(title: str, body: str, site: dict, extra_head: str = "") -> str:
+def _render_page(title: str, body: str, site: dict, extra_head: str = "",
+                 depth: int = 0) -> str:
+    """depth=0 首页；depth=1 在 archive/ 子目录里。"""
+    prefix = "../" * depth
     return f"""<!doctype html>
 <html lang="{_esc(site.get('lang', 'zh-CN'))}">
 <head>
@@ -196,10 +188,11 @@ def _render_page(title: str, body: str, site: dict, extra_head: str = "") -> str
 <title>{_esc(title)}</title>
 <meta name="description" content="{_esc(site.get('subtitle', ''))}">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#f7f7f5" media="(prefers-color-scheme:light)">
-<meta name="theme-color" content="#0f0f11" media="(prefers-color-scheme:dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme:light)">
+<meta name="theme-color" content="#202b38" media="(prefers-color-scheme:dark)">
+<link rel="stylesheet" href="{prefix}assets/water.css">
+<style>{THEME_CSS}</style>
 {extra_head}
-<style>{CSS}</style>
 </head>
 <body>
 <div class="wrap">
@@ -222,7 +215,7 @@ def _entries_html(items: list[Item]) -> str:
         brief_html = f'<p class="brief">{brief}</p>' if brief else ""
         why_html = f'<div class="why">{why}</div>' if why else ""
         parts.append(f"""<article class="entry">
-<div class="idx">{idx:02d}</div>
+<div class="num">{idx:02d}</div>
 <h2><a href="{_esc(it.link)}" target="_blank" rel="noopener">{_esc(it.title)}</a></h2>
 {brief_html}
 {why_html}
@@ -235,24 +228,32 @@ def _entries_html(items: list[Item]) -> str:
     return "\n".join(parts)
 
 
+def _copy_assets(out_dir: Path) -> None:
+    """把 vendor CSS 复制进 docs/assets，保持站点自包含。"""
+    dest_dir = out_dir / "assets"
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    if VENDOR_CSS.exists():
+        shutil.copyfile(VENDOR_CSS, dest_dir / "water.css")
+
+
 def write_site(items: list[Item], date_str: str, config: dict, out_dir: Path,
                archive: list[str] | None = None) -> Path:
     site = config.get("site", {})
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "archive").mkdir(exist_ok=True)
+    _copy_assets(out_dir)
 
     body = f"""<header class="site">
-<div class="brand"><span class="dot"></span><span style="font-size:12px;letter-spacing:1.5px;
-text-transform:uppercase;color:var(--muted);font-weight:600">Daily Brief</span></div>
+<p class="kicker">Daily Brief</p>
 <h1>{_esc(site.get('title', '每日简报'))}</h1>
 <p class="sub">{_esc(site.get('subtitle', ''))}</p>
 </header>
 <div class="dateline">
-<span class="d">{_nice_date(date_str)}</span>
-<span class="n">共 {len(items)} 条</span>
+<strong>{_nice_date(date_str)}</strong>
+<span>共 {len(items)} 条</span>
 </div>
 {_entries_html(items)}
-<footer>
+<footer class="site">
 <span>{_esc(site.get('title', ''))}</span>
 <span><a href="archive/index.html">历史归档</a></span>
 </footer>"""
@@ -262,8 +263,7 @@ text-transform:uppercase;color:var(--muted);font-weight:600">Daily Brief</span><
     index_path.write_text(page, encoding="utf-8")
 
     archive_body = f"""<header class="site">
-<div class="brand"><span class="dot"></span><span style="font-size:12px;letter-spacing:1.5px;
-text-transform:uppercase;color:var(--muted);font-weight:600">Archive</span></div>
+<p class="kicker">Archive</p>
 <h1>{_esc(site.get('title', '每日简报'))}</h1>
 <p class="sub">{_nice_date(date_str)} 的简报</p>
 </header>
@@ -271,7 +271,7 @@ text-transform:uppercase;color:var(--muted);font-weight:600">Archive</span></div
 {_entries_html(items)}"""
     archive_page = _render_page(
         f"{_nice_date(date_str)} · 归档 · {site.get('title', '')}", archive_body, site,
-        extra_head='<meta name="robots" content="noindex">',
+        extra_head='<meta name="robots" content="noindex">', depth=1,
     )
     (out_dir / "archive" / f"{date_str}.html").write_text(archive_page, encoding="utf-8")
     return index_path
@@ -294,15 +294,14 @@ def write_archive_index(out_dir: Path, site: dict) -> None:
         listing = '<div class="empty">还没有归档。</div>'
 
     body = f"""<header class="site">
-<div class="brand"><span class="dot"></span><span style="font-size:12px;letter-spacing:1.5px;
-text-transform:uppercase;color:var(--muted);font-weight:600">Archive</span></div>
+<p class="kicker">Archive</p>
 <h1>历史归档</h1>
 <p class="sub">共 {len(dates)} 期</p>
 </header>
 <a class="back" href="../index.html">← 返回最新</a>
 {listing}"""
     page = _render_page(f"历史归档 · {site.get('title', '')}", body, site,
-                        extra_head='<meta name="robots" content="noindex">')
+                        extra_head='<meta name="robots" content="noindex">', depth=1)
     (archive_dir / "index.html").write_text(page, encoding="utf-8")
 
 
