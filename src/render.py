@@ -155,10 +155,7 @@ header.hero .sub{
 .section-card:hover{transform:translateY(-6px) scale(1.02) translateZ(0);z-index:20}
 .section-card:active{transform:translateY(-3px) scale(1.005) translateZ(0)}
 .sec-head{display:flex;align-items:center;gap:14px;margin-bottom:10px}
-.sec-icon{
-  font-size:30px;line-height:1;filter:drop-shadow(0 2px 8px rgb(0 0 0/.4));
-}
-.sec-name{font-size:23px;font-weight:720;letter-spacing:-.3px}
+.sec-name{font-size:24px;font-weight:720;letter-spacing:-.4px}
 .sec-count{
   margin-left:auto;font-size:13.5px;color:rgb(255 255 255/.55);
   font-variant-numeric:tabular-nums;
@@ -475,7 +472,7 @@ def _tabs(sections: list[dict], active: str, depth: int = 0) -> str:
         cls = "tab active" if sid == active else "tab"
         parts.append(
             f'<a class="{cls}" href="{prefix}{sid}.html">'
-            f'{_esc(s.get("icon", ""))} {_esc(s.get("name", sid))}</a>'
+            f'{_esc(s.get("name", sid))}</a>'
         )
     return f'<nav class="tabs glass r-md">{"".join(parts)}</nav>'
 
@@ -502,7 +499,6 @@ def write_all(results: dict[str, list[Item]], sections: list[dict], date_str: st
         cards.append(f"""<a class="glass section-card r-md" href="{sid}.html">
 <div class="sheen"></div>
 <div class="sec-head">
-<span class="sec-icon">{_esc(s.get('icon', ''))}</span>
 <span class="sec-name">{_esc(s.get('name', sid))}</span>
 <span class="sec-count">{len(items)} 条</span>
 </div>
@@ -535,7 +531,7 @@ def write_all(results: dict[str, list[Item]], sections: list[dict], date_str: st
         items = results.get(sid, [])
         body = f"""<header class="hero glass r-lg">
 <div class="sheen"></div>
-<p class="kicker">{_esc(s.get('icon', ''))} {_esc(name)}</p>
+<p class="kicker">{_esc(name)}</p>
 <h1>{_esc(name)}</h1>
 <p class="sub">{_esc(subtitle)}</p>
 </header>
@@ -553,7 +549,7 @@ def write_all(results: dict[str, list[Item]], sections: list[dict], date_str: st
         # 板块归档页
         arch_body = f"""<header class="hero glass r-lg">
 <div class="sheen"></div>
-<p class="kicker">{_esc(s.get('icon', ''))} {_esc(name)} · 归档</p>
+<p class="kicker">{_esc(name)} · 归档</p>
 <h1>{_nice_date(date_str)}</h1>
 <p class="sub">{_esc(subtitle)}</p>
 </header>
@@ -569,7 +565,7 @@ def write_all(results: dict[str, list[Item]], sections: list[dict], date_str: st
     # ---------- 归档索引 ----------
     arch_items = "".join(
         f'<li><a class="glass r-sm" href="archive/{s.get("id")}.html">'
-        f'<span>{_esc(s.get("icon", ""))} {_esc(s.get("name", ""))}'
+        f'<span>{_esc(s.get("name", ""))}'
         f' · {_nice_date(date_str)}</span>'
         f'<span class="arrow">→</span></a></li>'
         for s in sections
