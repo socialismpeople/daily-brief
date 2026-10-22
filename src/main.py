@@ -1,4 +1,4 @@
-"""主流程：抓取 → 去重 → 排序 → 摘要 → 渲染静态站点。"""
+"""主流程：多板块抓取 → 去重 → 排序 → 摘要 → 渲染。"""
 from __future__ import annotations
 
 import argparse
@@ -15,7 +15,7 @@ DATA_DIR = ROOT / "data"
 DOCS_DIR = ROOT / "docs"
 DIGEST_DIR = ROOT / "digests"
 SEEN_PATH = DATA_DIR / "seen.json"
-MAX_SEEN = 300
+MAX_SEEN = 800
 
 
 def load_seen() -> set[str]:
@@ -43,17 +43,49 @@ def save_seen(hashes: set[str], new_items: list[feed.Item]) -> None:
     )
 
 
-def collect(config: dict) -> list[feed.Item]:
+def collect(sources: list[dict]) -> list[feed.Item]:
     all_items: list[feed.Item] = []
-    for src in config.get("sources", []):
+    for src in sources:
         name = src.get("name", src.get("url", "?"))
         try:
             items = feed.fetch_source(src)
-            print(f"  [ok] {name}: {len(items)} 条")
+            print(f"    [ok] {name}: {len(items)} 条")
             all_items.extend(items)
         except Exception as exc:  # noqa: BLE001
-            print(f"  [warn] {name} 抓取异常: {exc}")
+            print(f"    [warn] {name} 抓取异常: {exc}")
     return all_items
+
+
+def build_section(section: dict, config: dict, seen: set[str],
+                  now: datetime, top_n: int | None = None) -> list[feed.Item]:
+    """处理单个板块：抓取 → 去重 → 排序 → 摘要。"""
+    sid = section.get("id", "?")
+    name = section.get("name", sid)
+    print(f"\n[{name}] 抓取 {len(section.get('sources', []))} 个源")
+    raw = collect(section.get("sources", []))
+    print(f"  合计 {len(raw)} 条")
+    if not raw:
+        return []
+
+    unique = dedupe.dedupe(raw, seen_hashes=seen)
+    print(f"  去重后 {len(unique)} 条")
+
+    # 板块级关键词覆盖
+    sec_config = dict(config)
+    sec_config["keywords"] = section.get("keywords", config.get("keywords", {}))
+    scored = rank.score_items(unique, sec_config, now=now)
+
+    limit = top_n or int(section.get("top_n", config.get("output", {}).get("top_n", 6)))
+    max_per_source = int(config.get("output", {}).get("max_per_source", 2))
+    picked = rank.pick_top(scored, limit, max_per_source)
+    print(f"  选出 {len(picked)} 条")
+
+    for it in picked:
+        it.link = dedupe.clean_link(it.link)
+        it.extra["section"] = sid
+
+    summarize.summarize(picked)
+    return picked
 
 
 def run(dry_run: bool = False, top_n: int | None = None) -> int:
@@ -61,58 +93,53 @@ def run(dry_run: bool = False, top_n: int | None = None) -> int:
     config = load_config()
     now = datetime.now(TZ)
     date_str = now.strftime("%Y-%m-%d")
-    print(f"=== {date_str} 每日简报 ===")
+    print(f"=== {date_str} 每日简报（多板块）===")
 
-    out_cfg = config.get("output", {})
-    limit = top_n or int(out_cfg.get("top_n", 6))
-    max_per_source = int(out_cfg.get("max_per_source", 3))
-
-    print("[1/5] 抓取信源")
-    raw_items = collect(config)
-    print(f"  合计 {len(raw_items)} 条")
-    if not raw_items:
-        print("[!] 没有抓到任何内容，退出")
+    sections = config.get("sections", [])
+    if not sections:
+        print("[!] config.json 里没有 sections")
         return 1
 
-    print("[2/5] 去重")
     seen = load_seen()
-    unique = dedupe.dedupe(raw_items, seen_hashes=seen)
-    print(f"  去重后 {len(unique)} 条（过滤 {len(raw_items) - len(unique)} 条）")
+    results: dict[str, list[feed.Item]] = {}
+    for section in sections:
+        try:
+            results[section.get("id", "?")] = build_section(section, config, seen, now, top_n)
+        except Exception:  # noqa: BLE001
+            traceback.print_exc()
+            results[section.get("id", "?")] = []
 
-    print("[3/5] 打分排序")
-    scored = rank.score_items(unique, config, now=now)
-    picked = rank.pick_top(scored, limit, max_per_source)
-    print(f"  选出 {len(picked)} 条")
-    for it in picked:
-        it.link = dedupe.clean_link(it.link)
+    total = sum(len(v) for v in results.values())
+    print(f"\n=== 共生成 {total} 条（{len(sections)} 个板块）===")
 
-    print("[4/5] 生成摘要")
-    summarize.summarize(picked)
-
-    print("[5/5] 渲染")
+    print("\n[渲染]")
     DIGEST_DIR.mkdir(exist_ok=True)
-    md = render.build_markdown(picked, date_str, config.get("site", {}))
-    (DIGEST_DIR / f"{date_str}.md").write_text(md, encoding="utf-8")
 
-    docs_archive = DOCS_DIR / "archive"
-    docs_archive.mkdir(parents=True, exist_ok=True)
-    existing = sorted((p.stem for p in docs_archive.glob("*.html") if p.stem != "index"), reverse=True)
-    render.write_site(picked, date_str, config, DOCS_DIR, archive=existing)
-    render.write_archive_index(DOCS_DIR, config.get("site", {}))
-    render.write_index_json(docs_archive, DOCS_DIR)
-    print(f"  已写入 docs/index.html 与 docs/archive/{date_str}.html")
+    # 全量 Markdown 归档
+    md_parts = [f"# {date_str} 每日简报\n"]
+    for section in sections:
+        sid = section.get("id", "?")
+        name = section.get("name", sid)
+        md_parts.append(f"\n## {section.get('icon', '')} {name}\n")
+        md_parts.append(render.build_markdown(results.get(sid, []), date_str,
+                                              config.get("site", {}), heading_offset=2))
+    (DIGEST_DIR / f"{date_str}.md").write_text("\n".join(md_parts), encoding="utf-8")
+
+    render.write_all(results, sections, date_str, config, DOCS_DIR)
+    print("  已写入 docs/index.html 与各板块页")
 
     if not dry_run:
-        save_seen(seen, picked)
+        all_picked = [it for v in results.values() for it in v]
+        save_seen(seen, all_picked)
 
-    print("=== 完成 ===")
+    print("\n=== 完成 ===")
     return 0
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="每日简报生成器")
-    parser.add_argument("--dry-run", action="store_true", help="不更新去重缓存")
-    parser.add_argument("--top", type=int, default=None, help="覆盖条数")
+    parser = argparse.ArgumentParser(description="多板块每日简报")
+    parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--top", type=int, default=None, help="覆盖每板块条数")
     args = parser.parse_args(argv)
     try:
         return run(dry_run=args.dry_run, top_n=args.top)
