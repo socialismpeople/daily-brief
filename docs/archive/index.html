@@ -72,8 +72,8 @@ body::before{
     0 10px 34px -6px rgb(0 0 0 / .34),
     0 2px 8px -2px rgb(0 0 0 / .22);
   transition:
-    transform .48s cubic-bezier(.34,1.56,.64,1),
-    box-shadow .48s cubic-bezier(.34,1.56,.64,1),
+    transform .48s cubic-bezier(.34,1.7,.5,1),
+    box-shadow .48s cubic-bezier(.34,1.7,.5,1),
     background-image .42s ease;
   will-change:transform;
 }
@@ -151,8 +151,9 @@ header.hero .sub{margin-top:11px;font-size:14px;color:rgb(255 255 255 / .66)}
   padding:24px 26px;margin-bottom:14px;
   opacity:0;
   animation:rise .68s cubic-bezier(.22,.61,.36,1) forwards;
-  /* 选中时不裁切圆角外的内容 */
-  isolation:isolate;
+  /* 关键：用 translateZ 提升到独立合成层，缩放时不重算 backdrop-filter */
+  transform:translateZ(0);
+  backface-visibility:hidden;
 }
 .card:nth-of-type(1){animation-delay:.06s}
 .card:nth-of-type(2){animation-delay:.12s}
@@ -161,15 +162,15 @@ header.hero .sub{margin-top:11px;font-size:14px;color:rgb(255 255 255 / .66)}
 .card:nth-of-type(5){animation-delay:.30s}
 .card:nth-of-type(6){animation-delay:.36s}
 @keyframes rise{
-  from{opacity:0;transform:translateY(20px) scale(.985)}
-  to{opacity:1;transform:none}
+  from{opacity:0;transform:translateY(20px) scale(.985) translateZ(0)}
+  to{opacity:1;transform:translateY(0) scale(1) translateZ(0)}
 }
 .card:hover{
-  transform:translateY(-8px) scale(1.028);
-  z-index:2;
+  transform:translateY(-10px) scale(1.045) translateZ(0);
+  z-index:20;
 }
 /* 按下时轻微回弹 */
-.card:active{transform:translateY(-4px) scale(.99);transition-duration:.12s}
+.card:active{transform:translateY(-5px) scale(1.01) translateZ(0);transition-duration:.1s}
 
 /* 鼠标跟随高光 */
 .card::after{
