@@ -72,8 +72,8 @@ body::before{
     0 10px 34px -6px rgb(0 0 0 / .34),
     0 2px 8px -2px rgb(0 0 0 / .22);
   transition:
-    transform .48s cubic-bezier(.34,1.56,.64,1),
-    box-shadow .48s cubic-bezier(.34,1.56,.64,1),
+    transform .48s cubic-bezier(.34,1.7,.5,1),
+    box-shadow .48s cubic-bezier(.34,1.7,.5,1),
     background-image .42s ease;
   will-change:transform;
 }
@@ -151,8 +151,9 @@ header.hero .sub{margin-top:11px;font-size:14px;color:rgb(255 255 255 / .66)}
   padding:24px 26px;margin-bottom:14px;
   opacity:0;
   animation:rise .68s cubic-bezier(.22,.61,.36,1) forwards;
-  /* 选中时不裁切圆角外的内容 */
-  isolation:isolate;
+  /* 关键：用 translateZ 提升到独立合成层，缩放时不重算 backdrop-filter */
+  transform:translateZ(0);
+  backface-visibility:hidden;
 }
 .card:nth-of-type(1){animation-delay:.06s}
 .card:nth-of-type(2){animation-delay:.12s}
@@ -161,15 +162,15 @@ header.hero .sub{margin-top:11px;font-size:14px;color:rgb(255 255 255 / .66)}
 .card:nth-of-type(5){animation-delay:.30s}
 .card:nth-of-type(6){animation-delay:.36s}
 @keyframes rise{
-  from{opacity:0;transform:translateY(20px) scale(.985)}
-  to{opacity:1;transform:none}
+  from{opacity:0;transform:translateY(20px) scale(.985) translateZ(0)}
+  to{opacity:1;transform:translateY(0) scale(1) translateZ(0)}
 }
 .card:hover{
-  transform:translateY(-8px) scale(1.028);
-  z-index:2;
+  transform:translateY(-10px) scale(1.045) translateZ(0);
+  z-index:20;
 }
 /* 按下时轻微回弹 */
-.card:active{transform:translateY(-4px) scale(.99);transition-duration:.12s}
+.card:active{transform:translateY(-5px) scale(1.01) translateZ(0);transition-duration:.1s}
 
 /* 鼠标跟随高光 */
 .card::after{
@@ -330,6 +331,30 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255 / .85)}
 </div>
 <article class="glass card r-md">
 <div class="row"><span class="idx">01</span>
+<span class="src">极客公园</span><span class="time">3.0h 前</span></div>
+<h2><a href="http://www.geekpark.net/news/372743" target="_blank" rel="noopener">大模型内卷之后，AI 竞争进入搜索基础设施时代</a></h2>
+<p class="brief">头图来源：元宝搜索 过去一年，AI 行业的战场正在悄悄发生位移</p>
+
+<a class="go" href="http://www.geekpark.net/news/372743" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+</article>
+<article class="glass card r-md">
+<div class="row"><span class="idx">02</span>
+<span class="src">InfoQ 中文</span><span class="time">0.0h 前</span></div>
+<h2><a href="https://www.infoq.cn/article/v85ey09UlxhCDH4r3RS3" target="_blank" rel="noopener">企业 AI 越用越复杂，如何用一个 Gateway 管好模型、Agent 和成本？｜ 技术趋势</a></h2>
+
+
+<a class="go" href="https://www.infoq.cn/article/v85ey09UlxhCDH4r3RS3" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+</article>
+<article class="glass card r-md">
+<div class="row"><span class="idx">03</span>
+<span class="src">极客公园</span><span class="time">2.9h 前</span></div>
+<h2><a href="http://www.geekpark.net/news/372746" target="_blank" rel="noopener">AI 漫剧越做越快，赚钱却没那么容易了</a></h2>
+<p class="brief">「一个创作者加上 IP 和 AI 工具，就能完成漫剧创作全流程</p>
+
+<a class="go" href="http://www.geekpark.net/news/372746" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+</article>
+<article class="glass card r-md">
+<div class="row"><span class="idx">04</span>
 <span class="src">36氪快讯</span><span class="time">0.1h 前</span></div>
 <h2><a href="https://www.36kr.com/newsflashes/4036938630566789" target="_blank" rel="noopener">落地真实工业工况，宸境科技物理AI赋能钢厂智能巡检</a></h2>
 <p class="brief">在2026宇树科技合作伙伴生态大会上，宸境科技亮相钢铁行业物理AI巡检方案，瞄准钢厂高危非标作业场景</p>
@@ -337,7 +362,7 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255 / .85)}
 <a class="go" href="https://www.36kr.com/newsflashes/4036938630566789" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <article class="glass card r-md">
-<div class="row"><span class="idx">02</span>
+<div class="row"><span class="idx">05</span>
 <span class="src">36氪快讯</span><span class="time">0.2h 前</span></div>
 <h2><a href="https://www.36kr.com/newsflashes/4036866955940745" target="_blank" rel="noopener">讯飞输入法16.0发布第三代语音输入“意图成稿”</a></h2>
 <p class="brief">10月22日，在科大讯飞全球1024开发者节期间，讯飞输入法16</p>
@@ -345,36 +370,12 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255 / .85)}
 <a class="go" href="https://www.36kr.com/newsflashes/4036866955940745" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <article class="glass card r-md">
-<div class="row"><span class="idx">03</span>
-<span class="src">The Verge</span><span class="time">0.2h 前</span></div>
-<h2><a href="https://www.theverge.com/news/1015824/eiliko-energize-lab-statement-on-robot-hack-breach" target="_blank" rel="noopener">Eiliko maker says it’s hiring an ‘’independent security firm’ after Verge report on its insecure robots</a></h2>
-<p class="brief">Eiliko, a cute robot charm you can hang on your bag with built-in AI conversatio</p>
-
-<a class="go" href="https://www.theverge.com/news/1015824/eiliko-energize-lab-statement-on-robot-hack-breach" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
-</article>
-<article class="glass card r-md">
-<div class="row"><span class="idx">04</span>
-<span class="src">钛媒体</span><span class="time">0.6h 前</span></div>
-<h2><a href="https://www.tmtpost.com/8177799.html" target="_blank" rel="noopener">独家｜阿维塔副总裁孙百功即将离职，未来将投身AI与出海领域</a></h2>
-<p class="brief">曾在华为体系工作近20年</p>
-
-<a class="go" href="https://www.tmtpost.com/8177799.html" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
-</article>
-<article class="glass card r-md">
-<div class="row"><span class="idx">05</span>
-<span class="src">爱范儿</span><span class="time">5.2h 前</span></div>
-<h2><a href="https://www.ifanr.com/1685446" target="_blank" rel="noopener">PHP爆雷引发全球紧急「拔网线」，别指望 AI 拯救互联网</a></h2>
-<p class="brief">网站被攻破后，数据、密码和令牌都可能受到影响 #欢迎关注爱范儿官方微信公众号：爱范儿（微信号：ifanr），更多精彩内容第一时间为您奉上</p>
-
-<a class="go" href="https://www.ifanr.com/1685446" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
-</article>
-<article class="glass card r-md">
 <div class="row"><span class="idx">06</span>
-<span class="src">极客公园</span><span class="time">26.0h 前</span></div>
-<h2><a href="http://www.geekpark.net/news/372698" target="_blank" rel="noopener">当车企要说为「人类自由」奋斗时，它在说什么</a></h2>
-<p class="brief">头图来源：极客公园 1993 年，时任三星集团会长的李健熙，在德国发表了著名的「法兰克福宣言」，其中最著名的一句话是：「除了老婆孩子，一切都要变</p>
+<span class="src">少数派</span><span class="time">2.1h 前</span></div>
+<h2><a href="https://sspai.com/post/115437" target="_blank" rel="noopener">把 Muse 装进 ESP-Mosaico：做一个没用的东西，证明 Vibe Coding 也在硬件领域快速成长</a></h2>
+<p class="brief">Matrix首页推荐Matrix是少数派的写作社区，我们主张分享真实的产品体验，有实用价值的经验与思考</p>
 
-<a class="go" href="http://www.geekpark.net/news/372698" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+<a class="go" href="https://sspai.com/post/115437" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <footer class="site glass r-sm">
 <span>我的每日简报</span>
