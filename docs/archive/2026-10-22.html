@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>10月22日 星期四 · 归档 · 我的每日简报</title>
+<meta name="description" content="每天 6 条，读完就够">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f7f7f5" media="(prefers-color-scheme:light)">
+<meta name="theme-color" content="#0f0f11" media="(prefers-color-scheme:dark)">
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --bg:#f7f7f5; --fg:#17171a; --muted:#77777f; --faint:#a0a0a8;
+  --line:#e6e6e2; --card:#ffffff; --accent:#c8553d; --accent-soft:#f6ece8;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px -12px rgba(0,0,0,.10);
+  --radius:16px;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#0f0f11; --fg:#ececee; --muted:#8e8e96; --faint:#63636b;
+    --line:#242428; --card:#17171a; --accent:#e0785f; --accent-soft:#2a1e1a;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);color:var(--fg);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei",sans-serif;
+  line-height:1.7;-webkit-font-smoothing:antialiased;
+  font-feature-settings:"kern" 1;
+}
+.wrap{max-width:680px;margin:0 auto;padding:0 24px}
+
+/* ---------- 顶部 ---------- */
+header.site{padding:64px 0 32px}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 0 4px var(--accent-soft);flex:none}
+header.site h1{font-size:27px;font-weight:750;letter-spacing:-.7px;line-height:1.25}
+header.site .sub{margin-top:9px;color:var(--muted);font-size:14.5px;letter-spacing:.1px}
+
+/* ---------- 日期条 ---------- */
+.dateline{
+  display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  padding:18px 0 20px;border-top:1px solid var(--line);
+  font-size:13px;color:var(--muted);
+}
+.dateline .d{font-size:14px;font-weight:600;color:var(--fg);letter-spacing:.3px;
+  font-variant-numeric:tabular-nums}
+.dateline .n{margin-left:auto;font-variant-numeric:tabular-nums}
+
+/* ---------- 条目 ---------- */
+.entry{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;margin-bottom:14px;box-shadow:var(--shadow);
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.entry:hover{transform:translateY(-2px);border-color:var(--accent);
+  box-shadow:0 2px 4px rgba(0,0,0,.05),0 14px 32px -14px rgba(0,0,0,.18)}
+.entry .idx{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:22px;height:22px;padding:0 6px;border-radius:7px;
+  background:var(--accent-soft);color:var(--accent);
+  font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;
+  margin-bottom:11px;
+}
+.entry h2{font-size:17.5px;font-weight:650;line-height:1.5;letter-spacing:-.15px}
+.entry h2 a{color:var(--fg);text-decoration:none;transition:color .15s}
+.entry h2 a:hover{color:var(--accent)}
+.brief{margin-top:9px;font-size:14.5px;color:var(--muted);line-height:1.72}
+.why{
+  margin-top:11px;padding:9px 13px;border-radius:10px;
+  background:var(--accent-soft);border-left:2px solid var(--accent);
+  font-size:13.5px;color:var(--fg);opacity:.92;line-height:1.6;
+}
+.meta{
+  margin-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  font-size:12.5px;color:var(--faint);
+}
+.tag{
+  padding:2px 9px;border-radius:999px;background:var(--bg);
+  border:1px solid var(--line);color:var(--muted);font-size:11.5px;font-weight:500;
+}
+.meta .go{margin-left:auto;color:var(--accent);text-decoration:none;font-weight:600;
+  font-size:12.5px;transition:gap .15s}
+.meta .go:hover{text-decoration:underline}
+
+/* ---------- 空状态 ---------- */
+.empty{
+  text-align:center;padding:72px 24px;color:var(--muted);
+  background:var(--card);border:1px dashed var(--line);border-radius:var(--radius);
+}
+
+/* ---------- 页脚 ---------- */
+footer{margin-top:56px;padding:28px 0 64px;border-top:1px solid var(--line);
+  font-size:12.5px;color:var(--faint);display:flex;justify-content:space-between;
+  align-items:center;gap:12px;flex-wrap:wrap}
+footer a{color:var(--muted);text-decoration:none}
+footer a:hover{color:var(--accent)}
+
+/* ---------- 归档页 ---------- */
+.back{
+  display:inline-flex;align-items:center;gap:6px;margin:0 0 22px;
+  font-size:13.5px;color:var(--muted);text-decoration:none;
+  padding:6px 14px 6px 10px;border:1px solid var(--line);border-radius:999px;
+  background:var(--card);transition:all .15s;
+}
+.back:hover{color:var(--accent);border-color:var(--accent)}
+.arch{list-style:none;margin-top:8px}
+.arch li{margin-bottom:2px}
+.arch a{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:13px 4px;border-bottom:1px solid var(--line);
+  color:var(--fg);text-decoration:none;font-size:14.5px;
+  font-variant-numeric:tabular-nums;transition:padding .15s,color .15s;
+}
+.arch a:hover{color:var(--accent);padding-left:8px}
+.arch .arrow{color:var(--faint);font-size:13px}
+
+@media(max-width:560px){
+  .wrap{padding:0 18px}
+  header.site{padding:44px 0 24px}
+  header.site h1{font-size:23px}
+  .entry{padding:18px 18px;border-radius:14px}
+  .entry h2{font-size:16.5px}
+  footer{flex-direction:column;align-items:flex-start;gap:6px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important}
+  .entry:hover{transform:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="site">
+<div class="brand"><span class="dot"></span><span style="font-size:12px;letter-spacing:1.5px;
+text-transform:uppercase;color:var(--muted);font-weight:600">Archive</span></div>
+<h1>我的每日简报</h1>
+<p class="sub">10月22日 星期四 的简报</p>
+</header>
+<a class="back" href="../index.html">← 返回最新</a>
+<article class="entry">
+<div class="idx">01</div>
+<h2><a href="http://www.geekpark.net/news/372740" target="_blank" rel="noopener">被迫下场，Anthropic 推出个人 AI 助理 Claude Duet</a></h2>
+<p class="brief">作者｜桦林舞王 编辑｜靖宇 用过各种 AI 助手的人大概都有过同一种疲劳：你不开口，它就装死；你一旦开口，它又把所有选择抛回给你</p>
+
+<div class="meta">
+<span class="tag">极客公园</span>
+<span>2.5h 前</span>
+<a class="go" href="http://www.geekpark.net/news/372740" target="_blank" rel="noopener">原文 →</a>
+</div>
+</article>
+<article class="entry">
+<div class="idx">02</div>
+<h2><a href="https://fleetingswallow.com/minotaur-ai-deep-dive-achieving-reasoning-without-a-language-model" target="_blank" rel="noopener">Achieving AI-style reasoning without an LLM</a></h2>
+
+
+<div class="meta">
+<span class="tag">Hacker News</span>
+<span>1.1h 前</span>
+<a class="go" href="https://fleetingswallow.com/minotaur-ai-deep-dive-achieving-reasoning-without-a-language-model" target="_blank" rel="noopener">原文 →</a>
+</div>
+</article>
+<article class="entry">
+<div class="idx">03</div>
+<h2><a href="http://www.geekpark.net/news/372711" target="_blank" rel="noopener">微软员工数十年来首次下降；沃尔玛/山姆推出 Agent 购物接口；推动 SpaceX 和特斯拉合并，马斯克财富有望暴涨</a></h2>
+<p class="brief">24 小时为你在线打工：Anthropic 推出 Claude Duet AI 智能体，迎战 Meta 和 OpenAI 10 月 22 日消息，Anthrop</p>
+
+<div class="meta">
+<span class="tag">极客公园</span>
+<span>9.1h 前</span>
+<a class="go" href="http://www.geekpark.net/news/372711" target="_blank" rel="noopener">原文 →</a>
+</div>
+</article>
+<article class="entry">
+<div class="idx">04</div>
+<h2><a href="https://www.36kr.com/newsflashes/4036824757670785" target="_blank" rel="noopener">三星工会提议放宽亏损芯片部门奖金扣罚规则</a></h2>
+<p class="brief">三星电子最大工会计划将放宽芯片业务亏损事业部奖金惩罚机制，列为明年薪资与集体谈判的议题</p>
+
+<div class="meta">
+<span class="tag">36氪快讯</span>
+<span>0.5h 前</span>
+<a class="go" href="https://www.36kr.com/newsflashes/4036824757670785" target="_blank" rel="noopener">原文 →</a>
+</div>
+</article>
+<article class="entry">
+<div class="idx">05</div>
+<h2><a href="https://www.tmtpost.com/8177643.html" target="_blank" rel="noopener">中层不会消失，只是换成了Agent</a></h2>
+<p class="brief">为防AI出内鬼，微软让一部分Agent当监工</p>
+
+<div class="meta">
+<span class="tag">钛媒体</span>
+<span>1.6h 前</span>
+<a class="go" href="https://www.tmtpost.com/8177643.html" target="_blank" rel="noopener">原文 →</a>
+</div>
+</article>
+<article class="entry">
+<div class="idx">06</div>
+<h2><a href="https://www.infoq.cn/article/o9OcWNkkwgKvsZmgY45d" target="_blank" rel="noopener">面向 Qwen 系列模型线性注意力的高性能优化实践</a></h2>
+
+
+<div class="meta">
+<span class="tag">InfoQ 中文</span>
+<span>0.0h 前</span>
+<a class="go" href="https://www.infoq.cn/article/o9OcWNkkwgKvsZmgY45d" target="_blank" rel="noopener">原文 →</a>
+</div>
+</article>
+</div>
+</body>
+</html>

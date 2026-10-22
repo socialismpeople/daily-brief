@@ -1,0 +1,13 @@
+# 密钥与本地文件
+.env
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 系统
+.DS_Store
+Thumbs.db
