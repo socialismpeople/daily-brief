@@ -86,8 +86,8 @@ body::before{
     0 10px 34px -6px rgb(0 0 0 / .34),
     0 2px 8px -2px rgb(0 0 0 / .22);
   transition:
-    transform .42s cubic-bezier(.22,.61,.36,1),
-    box-shadow .42s cubic-bezier(.22,.61,.36,1),
+    transform .48s cubic-bezier(.34,1.56,.64,1),
+    box-shadow .48s cubic-bezier(.34,1.56,.64,1),
     background-image .42s ease;
   will-change:transform;
 }
@@ -178,9 +178,12 @@ header.hero .sub{margin-top:11px;font-size:14px;color:rgb(255 255 255 / .66)}
   from{opacity:0;transform:translateY(20px) scale(.985)}
   to{opacity:1;transform:none}
 }
-.card:hover{transform:translateY(-6px) scale(1.006)}
+.card:hover{
+  transform:translateY(-8px) scale(1.028);
+  z-index:2;
+}
 /* 按下时轻微回弹 */
-.card:active{transform:translateY(-2px) scale(.997);transition-duration:.1s}
+.card:active{transform:translateY(-4px) scale(.99);transition-duration:.12s}
 
 /* 鼠标跟随高光 */
 .card::after{
@@ -317,7 +320,7 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255 / .85)}
   .r-sm{border-radius:14px}
   footer.site{flex-direction:column;align-items:flex-start;gap:6px}
   /* 移动端禁用 hover 位移，避免误触 */
-  .card:hover,.glass:hover{transform:none}
+  .card:hover,.glass:hover{transform:none;z-index:auto}
   .card::after{display:none}
 }
 @media(prefers-reduced-motion:reduce){
