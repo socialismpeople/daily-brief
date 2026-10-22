@@ -5,226 +5,259 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>10月22日 星期四 · 我的每日简报</title>
 <meta name="description" content="每天 6 条，读完就够">
-<meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#fffefb" media="(prefers-color-scheme:light)">
-<meta name="theme-color" content="#14130f" media="(prefers-color-scheme:dark)">
-<link rel="stylesheet" href="assets/marx.css">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0b0d12">
+<link rel="preload" as="image" href="assets/wallpapers/night.jpg">
 <style>
-:root{
-  --ink:#1a1a1a;
-  --ink-soft:#5c5c5c;
-  --ink-faint:#9a9a9a;
-  --paper:#fffefb;
-  --rule:rgba(0,0,0,.10);
-  --brand:#b3402e;
+body{background-image:url("assets/wallpapers/night.jpg")}
+body{--overlay:linear-gradient(180deg,rgba(8,8,20,.48),rgba(8,8,20,.80))}
+
+/* ============ daisyUI .glass（MIT）============ */
+.glass{
+  --glass-opacity:18%;
+  --glass-border-opacity:14%;
+  --glass-reflex-degree:100deg;
+  --glass-reflex-opacity:9%;
+  --glass-blur:40px;
+  backdrop-filter:blur(var(--glass-blur));
+  -webkit-backdrop-filter:blur(var(--glass-blur));
+  background-color:transparent;
+  background-image:
+    linear-gradient(135deg, rgb(255 255 255 / var(--glass-opacity)) 0%, transparent 100%),
+    linear-gradient(var(--glass-reflex-degree),
+      rgb(255 255 255 / var(--glass-reflex-opacity)) 25%, transparent 25%);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / var(--glass-border-opacity)) inset,
+    0 8px 32px rgb(0 0 0 / .28);
 }
-@media(prefers-color-scheme:dark){
-  :root{
-    --ink:#e8e6e1;
-    --ink-soft:#a8a5a0;
-    --ink-faint:#6e6b66;
-    --paper:#14130f;
-    --rule:rgba(255,255,255,.12);
-    --brand:#e0775c;
-  }
+.glass:hover{
+  --glass-opacity:25%;
+  --glass-border-opacity:15%;
 }
-html{ background:var(--paper); }
+
+/* ============ 基础 ============ */
+*{margin:0;padding:0;box-sizing:border-box}
+html{min-height:100%}
 body{
-  background:var(--paper); color:var(--ink);
+  min-height:100vh;color:#fff;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",
     "Hiragino Sans GB","Noto Sans SC","Microsoft YaHei",sans-serif;
   -webkit-font-smoothing:antialiased;
-  line-height:1.78;
+  background:#0b0d12 center/cover fixed no-repeat;
+  padding:56px 18px 80px;
 }
-.wrap{ max-width:660px; margin:0 auto; padding:64px 26px 88px; }
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;
+  background:var(--overlay);
+  pointer-events:none;
+}
+.wrap{position:relative;z-index:1;max-width:700px;margin:0 auto}
 
-/* 顶部 */
-header.site{ margin-bottom:38px; }
-header.site .kicker{
-  font-size:10.5px; letter-spacing:2.2px; text-transform:uppercase;
-  font-weight:650; color:var(--ink-faint); margin:0 0 14px;
+/* 头部 */
+header.hero{
+  border-radius:26px;padding:36px 28px;text-align:center;margin-bottom:16px;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1);
 }
-header.site h1{
-  font-size:29px; line-height:1.22; letter-spacing:-.7px;
-  font-weight:750; margin:0 0 10px; color:var(--ink);
+header.hero:hover{transform:translateY(-3px)}
+.kicker{
+  font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;
+  font-weight:700;color:rgba(255,255,255,.62);margin-bottom:12px;
 }
-header.site .sub{
-  font-size:14px; color:var(--ink-soft); margin:0; line-height:1.6;
+header.hero h1{
+  font-size:31px;font-weight:750;letter-spacing:-.6px;line-height:1.2;
+  text-shadow:0 2px 16px rgba(0,0,0,.4);
 }
+header.hero .sub{margin-top:10px;font-size:14px;color:rgba(255,255,255,.68)}
 
 /* 日期条 */
 .dateline{
-  display:flex; justify-content:space-between; align-items:baseline;
-  padding:16px 0 18px; margin:0 0 8px;
-  border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
-  font-size:12.5px; color:var(--ink-faint);
-  font-variant-numeric:tabular-nums; letter-spacing:.3px;
+  border-radius:14px;padding:13px 20px;margin-bottom:16px;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:12.5px;color:rgba(255,255,255,.72);
+  font-variant-numeric:tabular-nums;
 }
-.dateline strong{
-  font-size:13px; font-weight:650; color:var(--ink-soft);
-}
+.dateline strong{font-weight:650;color:rgba(255,255,255,.9)}
 
-/* 条目 */
-article.entry{ padding:28px 0 26px; border-bottom:1px solid var(--rule); }
-article.entry:last-of-type{ border-bottom:none; }
-article.entry .num{ display:none; }
-article.entry h2{
-  margin:0 0 10px; font-size:18px; line-height:1.48;
-  letter-spacing:-.2px; font-weight:680;
+/* 卡片 */
+.card{
+  border-radius:20px;padding:24px 26px;margin-bottom:14px;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease;
+  opacity:0;animation:rise .6s cubic-bezier(.2,.8,.2,1) forwards;
 }
-article.entry h2 a{
-  color:var(--ink); text-decoration:none;
-  background-image:linear-gradient(var(--rule),var(--rule));
-  background-size:0% 1px; background-position:0 100%;
-  background-repeat:no-repeat;
-  transition:background-size .25s ease,color .2s ease;
+.card:nth-of-type(1){animation-delay:.05s}
+.card:nth-of-type(2){animation-delay:.10s}
+.card:nth-of-type(3){animation-delay:.15s}
+.card:nth-of-type(4){animation-delay:.20s}
+.card:nth-of-type(5){animation-delay:.25s}
+.card:nth-of-type(6){animation-delay:.30s}
+@keyframes rise{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:none}
 }
-article.entry h2 a:hover{
-  color:var(--brand);
-  background-size:100% 1px;
+.card:hover{
+  transform:translateY(-5px);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / .18) inset,
+    0 20px 52px rgb(0 0 0 / .38);
 }
-article.entry p.brief{
-  margin:0 0 10px; font-size:15px; line-height:1.75;
-  color:var(--ink-soft);
+.row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.idx{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:26px;height:26px;padding:0 7px;border-radius:9px;
+  background:rgba(255,255,255,.16);
+  box-shadow:0 0 0 1px rgba(255,255,255,.2) inset;
+  font-size:11.5px;font-weight:750;font-variant-numeric:tabular-nums;
 }
-article.entry .why{
-  margin:11px 0 0; padding-left:14px;
-  border-left:2px solid var(--brand);
-  font-size:13.5px; line-height:1.68; color:var(--ink-soft);
+.src{font-size:12px;font-weight:650;color:rgba(255,255,255,.88)}
+.time{
+  margin-left:auto;font-size:11.5px;color:rgba(255,255,255,.52);
+  font-variant-numeric:tabular-nums;
+}
+.card h2{
+  font-size:18px;font-weight:680;line-height:1.5;letter-spacing:-.2px;
+  text-shadow:0 1px 10px rgba(0,0,0,.3);
+}
+.card h2 a{color:#fff;text-decoration:none}
+.card h2 a:hover{
+  text-decoration:underline;text-underline-offset:4px;
+  text-decoration-color:rgba(255,255,255,.5);
+}
+.card p.brief{
+  margin-top:10px;font-size:14.5px;line-height:1.72;
+  color:rgba(255,255,255,.78);
+}
+.card p.why{
+  margin-top:11px;padding:9px 14px;border-radius:11px;
+  background:rgba(255,255,255,.09);
+  border-left:2px solid rgba(255,255,255,.45);
+  font-size:13.5px;line-height:1.65;color:rgba(255,255,255,.88);
   font-style:italic;
 }
-article.entry .meta{
-  display:flex; align-items:center; gap:9px; flex-wrap:wrap;
-  margin:14px 0 0; font-size:12px; color:var(--ink-faint);
-  letter-spacing:.2px; font-variant-numeric:tabular-nums;
+.card .go{
+  display:inline-block;margin-top:14px;font-size:13px;font-weight:650;
+  color:rgba(255,255,255,.72);text-decoration:none;
+  transition:color .2s ease,letter-spacing .2s ease;
 }
-article.entry .tag{ color:var(--ink-soft); font-weight:600; }
-article.entry .go{
-  margin-left:auto; color:var(--ink-faint); text-decoration:none;
-  transition:color .15s ease;
-}
-article.entry .go:hover{ color:var(--brand); }
+.card .go:hover{color:#fff;letter-spacing:.3px}
+.card .go span{display:inline-block;transition:transform .2s ease}
+.card .go:hover span{transform:translateX(4px)}
 
 /* 空状态 */
 .empty{
-  padding:64px 20px; text-align:center;
-  color:var(--ink-faint); font-size:14.5px; line-height:1.8;
+  border-radius:20px;padding:64px 24px;text-align:center;
+  font-size:14.5px;line-height:1.8;color:rgba(255,255,255,.6);
 }
 
 /* 页脚 */
 footer.site{
-  display:flex; justify-content:space-between; align-items:center;
-  gap:12px; flex-wrap:wrap;
-  margin-top:52px; padding-top:22px; border-top:1px solid var(--rule);
-  font-size:12px; color:var(--ink-faint); letter-spacing:.2px;
+  border-radius:14px;padding:16px 22px;margin-top:28px;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;flex-wrap:wrap;
+  font-size:12px;color:rgba(255,255,255,.5);
 }
-footer.site a{ color:var(--ink-faint); text-decoration:none; }
-footer.site a:hover{ color:var(--brand); }
+footer.site a{color:rgba(255,255,255,.6);text-decoration:none}
+footer.site a:hover{color:#fff}
 
 /* 归档 */
 .back{
-  display:inline-block; margin:0 0 30px;
-  font-size:13px; color:var(--ink-faint); text-decoration:none;
-  transition:color .15s ease;
+  display:inline-block;margin:4px 0 20px;padding:8px 18px;
+  border-radius:999px;font-size:13px;
+  color:rgba(255,255,255,.8);text-decoration:none;
+  transition:color .2s ease,transform .2s ease;
 }
-.back:hover{ color:var(--brand); }
-ul.arch{ list-style:none; margin:0; padding:0; }
-ul.arch li{ margin:0; }
+.back:hover{color:#fff;transform:translateX(-3px)}
+ul.arch{list-style:none}
+ul.arch li{margin:0}
 ul.arch a{
-  display:flex; justify-content:space-between; align-items:center;
-  padding:15px 0; border-bottom:1px solid var(--rule);
-  color:var(--ink); text-decoration:none; font-size:15px;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:15px 20px;margin-bottom:9px;border-radius:14px;
+  color:#fff;text-decoration:none;font-size:14.5px;
   font-variant-numeric:tabular-nums;
-  transition:color .15s ease,padding-left .18s ease;
+  transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s ease;
 }
-ul.arch a:hover{ color:var(--brand); padding-left:6px; }
-ul.arch .arrow{ color:var(--ink-faint); font-size:13px; }
+ul.arch a:hover{
+  transform:translateX(5px);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / .2) inset,
+    0 12px 32px rgb(0 0 0 / .32);
+}
+ul.arch .arrow{color:rgba(255,255,255,.5);font-size:13px}
 
-@media(max-width:560px){
-  .wrap{ padding:44px 20px 68px; }
-  header.site h1{ font-size:24px; }
-  article.entry{ padding:24px 0 22px; }
-  article.entry h2{ font-size:16.5px; }
-  footer.site{ flex-direction:column; align-items:flex-start; gap:6px; }
+@media(max-width:600px){
+  body{padding:30px 12px 56px;background-attachment:scroll}
+  header.hero{padding:26px 20px;border-radius:20px}
+  header.hero h1{font-size:24px}
+  .card{padding:19px 19px;border-radius:16px}
+  .card h2{font-size:16.5px}
+  footer.site{flex-direction:column;align-items:flex-start;gap:6px}
 }
 @media(prefers-reduced-motion:reduce){
-  *{ transition:none !important; }
+  *{animation:none!important;transition:none!important}
+  .card{opacity:1!important}
 }
+
 </style>
 
 </head>
 <body>
 <div class="wrap">
-<header class="site">
+<header class="hero glass">
 <p class="kicker">Daily Brief</p>
 <h1>我的每日简报</h1>
 <p class="sub">每天 6 条，读完就够</p>
 </header>
-<div class="dateline">
-<strong>10月22日 星期四</strong>
-<span>共 6 条</span>
+<div class="dateline glass">
+<strong>10月22日 星期四</strong><span>共 6 条</span>
 </div>
-<article class="entry">
+<article class="glass card">
+<div class="row"><span class="idx">01</span>
+<span class="src">极客公园</span><span class="time">2.3h 前</span></div>
+<h2><a href="http://www.geekpark.net/news/372743" target="_blank" rel="noopener">大模型内卷之后，AI 竞争进入搜索基础设施时代</a></h2>
+<p class="brief">头图来源：元宝搜索 过去一年，AI 行业的战场正在悄悄发生位移</p>
+
+<a class="go" href="http://www.geekpark.net/news/372743" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+</article>
+<article class="glass card">
+<div class="row"><span class="idx">02</span>
+<span class="src">InfoQ 中文</span><span class="time">0.0h 前</span></div>
 <h2><a href="https://www.infoq.cn/article/v85ey09UlxhCDH4r3RS3" target="_blank" rel="noopener">企业 AI 越用越复杂，如何用一个 Gateway 管好模型、Agent 和成本？｜ 技术趋势</a></h2>
 
 
-<div class="meta">
-<span class="tag">InfoQ 中文</span>
-<span>0.0h 前</span>
-<a class="go" href="https://www.infoq.cn/article/v85ey09UlxhCDH4r3RS3" target="_blank" rel="noopener">原文 →</a>
-</div>
+<a class="go" href="https://www.infoq.cn/article/v85ey09UlxhCDH4r3RS3" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
-<article class="entry">
+<article class="glass card">
+<div class="row"><span class="idx">03</span>
+<span class="src">极客公园</span><span class="time">2.2h 前</span></div>
+<h2><a href="http://www.geekpark.net/news/372746" target="_blank" rel="noopener">AI 漫剧越做越快，赚钱却没那么容易了</a></h2>
+<p class="brief">「一个创作者加上 IP 和 AI 工具，就能完成漫剧创作全流程</p>
+
+<a class="go" href="http://www.geekpark.net/news/372746" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+</article>
+<article class="glass card">
+<div class="row"><span class="idx">04</span>
+<span class="src">36氪快讯</span><span class="time">0.4h 前</span></div>
 <h2><a href="https://www.36kr.com/newsflashes/4036868349416329" target="_blank" rel="noopener">美国多家银行监测：未经许可第三方AI智能体访问客户账户</a></h2>
 <p class="brief">据消息人士透露，美国多家大型银行侦测到未获许可的第三方AI智能体在客户账户内运行，部分智能体试图执行操作，而这些操作看似脱离了用户指令</p>
 
-<div class="meta">
-<span class="tag">36氪快讯</span>
-<span>0.1h 前</span>
-<a class="go" href="https://www.36kr.com/newsflashes/4036868349416329" target="_blank" rel="noopener">原文 →</a>
-</div>
+<a class="go" href="https://www.36kr.com/newsflashes/4036868349416329" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
-<article class="entry">
+<article class="glass card">
+<div class="row"><span class="idx">05</span>
+<span class="src">钛媒体</span><span class="time">2.7h 前</span></div>
+<h2><a href="https://www.tmtpost.com/8177297.html" target="_blank" rel="noopener">打通Dots与核心Infra团队，慢一步的小红书会加快AI进程吗？</a></h2>
+<p class="brief">从2023年开始至今，大模型行业已经百模大战，深入到Agent、生态比拼</p>
+
+<a class="go" href="https://www.tmtpost.com/8177297.html" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+</article>
+<article class="glass card">
+<div class="row"><span class="idx">06</span>
+<span class="src">少数派</span><span class="time">1.4h 前</span></div>
 <h2><a href="https://sspai.com/post/115437" target="_blank" rel="noopener">把 Muse 装进 ESP-Mosaico：做一个没用的东西，证明 Vibe Coding 也在硬件领域快速成长</a></h2>
 <p class="brief">Matrix首页推荐Matrix是少数派的写作社区，我们主张分享真实的产品体验，有实用价值的经验与思考</p>
 
-<div class="meta">
-<span class="tag">少数派</span>
-<span>1.1h 前</span>
-<a class="go" href="https://sspai.com/post/115437" target="_blank" rel="noopener">原文 →</a>
-</div>
+<a class="go" href="https://sspai.com/post/115437" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
-<article class="entry">
-<h2><a href="https://www.technologyreview.com/2026/10/22/1146812/making-the-case-for-context-aware-ai" target="_blank" rel="noopener">Making the case for context-aware AI</a></h2>
-<p class="brief">Enterprise AI can generate recommendations, automate tasks, and help organizatio</p>
-
-<div class="meta">
-<span class="tag">MIT Tech Review</span>
-<span>0.3h 前</span>
-<a class="go" href="https://www.technologyreview.com/2026/10/22/1146812/making-the-case-for-context-aware-ai" target="_blank" rel="noopener">原文 →</a>
-</div>
-</article>
-<article class="entry">
-<h2><a href="https://www.infoq.cn/article/zGqDWHF8tHDtlYcImAJS" target="_blank" rel="noopener">GitHub 通过 AI 辅助重构，将 Copilot 运行时迁移至 Rust</a></h2>
-
-
-<div class="meta">
-<span class="tag">InfoQ 中文</span>
-<span>0.0h 前</span>
-<a class="go" href="https://www.infoq.cn/article/zGqDWHF8tHDtlYcImAJS" target="_blank" rel="noopener">原文 →</a>
-</div>
-</article>
-<article class="entry">
-<h2><a href="https://www.36kr.com/newsflashes/4036886787888258" target="_blank" rel="noopener">工信部公开征求对《工业和信息化部关于修改部分规章的决定（征求意见稿）》的意见</a></h2>
-<p class="brief">36氪获悉，工信部发布公开征求对《工业和信息化部关于修改部分规章的决定（征求意见稿）》的意见</p>
-
-<div class="meta">
-<span class="tag">36氪快讯</span>
-<span>0.0h 前</span>
-<a class="go" href="https://www.36kr.com/newsflashes/4036886787888258" target="_blank" rel="noopener">原文 →</a>
-</div>
-</article>
-<footer class="site">
+<footer class="site glass">
 <span>我的每日简报</span>
 <span><a href="archive/index.html">历史归档</a></span>
 </footer>
