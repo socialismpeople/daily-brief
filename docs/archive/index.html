@@ -36,7 +36,7 @@ body::before{
   background:var(--overlay);
   pointer-events:none;
 }
-.wrap{position:relative;z-index:1;max-width:700px;margin:0 auto}
+.wrap{position:relative;z-index:1;max-width:700px;margin:0 auto;padding:0 10px}
 
 /* ============ Apple 式连续圆角 ============ */
 .r-lg{border-radius:28px}
@@ -124,9 +124,18 @@ body::before{
 
 /* ============ 头部 ============ */
 header.hero{
-  padding:38px 28px;text-align:center;margin-bottom:16px;
+  padding:38px 28px;text-align:center;margin-bottom:18px;
+  --hero-scale:1.15;
+  transform:translateZ(0);
+  transition:
+    transform .5s cubic-bezier(.34,1.7,.5,1),
+    box-shadow .5s cubic-bezier(.34,1.7,.5,1);
+  will-change:transform;
 }
-header.hero:hover{transform:translateY(-3px)}
+header.hero:hover{
+  transform:translateY(-4px) scale(var(--hero-scale)) translateZ(0);
+  z-index:20;
+}
 .kicker{
   font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;
   font-weight:700;color:rgb(255 255 255 / .58);margin-bottom:13px;
@@ -139,7 +148,7 @@ header.hero .sub{margin-top:11px;font-size:14px;color:rgb(255 255 255 / .66)}
 
 /* ============ 日期条 ============ */
 .dateline{
-  padding:13px 20px;margin-bottom:16px;
+  padding:13px 20px;margin-bottom:22px;
   display:flex;justify-content:space-between;align-items:center;
   font-size:12.5px;color:rgb(255 255 255 / .72);
   font-variant-numeric:tabular-nums;
@@ -148,7 +157,7 @@ header.hero .sub{margin-top:11px;font-size:14px;color:rgb(255 255 255 / .66)}
 
 /* ============ 卡片 ============ */
 .card{
-  padding:24px 26px;margin-bottom:14px;
+  padding:24px 26px;margin-bottom:24px;
   opacity:0;
   animation:rise .68s cubic-bezier(.22,.61,.36,1) forwards;
   /* 关键：用 translateZ 提升到独立合成层，缩放时不重算 backdrop-filter */
@@ -284,7 +293,7 @@ ul.arch{list-style:none}
 ul.arch li{margin:0}
 ul.arch a{
   display:flex;justify-content:space-between;align-items:center;
-  padding:16px 20px;margin-bottom:10px;
+  padding:16px 20px;margin-bottom:14px;
   color:#fff;text-decoration:none;font-size:14.5px;
   font-variant-numeric:tabular-nums;
   transition:all .32s cubic-bezier(.22,.61,.36,1);
@@ -296,6 +305,9 @@ ul.arch .arrow{color:rgb(255 255 255 / .45);font-size:13px;
 ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255 / .85)}
 
 /* ============ 响应式 ============ */
+@media(max-width:820px){
+  header.hero{--hero-scale:1.06}
+}
 @media(max-width:600px){
   body{padding:30px 12px 56px;background-attachment:scroll}
   header.hero{padding:28px 20px}
@@ -307,7 +319,7 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255 / .85)}
   .r-sm{border-radius:14px}
   footer.site{flex-direction:column;align-items:flex-start;gap:6px}
   /* 移动端禁用 hover 位移，避免误触 */
-  .card:hover,.glass:hover{transform:none;z-index:auto}
+  .card:hover,.glass:hover,header.hero:hover{transform:none;z-index:auto}
   .card::after{display:none}
 }
 @media(prefers-reduced-motion:reduce){
