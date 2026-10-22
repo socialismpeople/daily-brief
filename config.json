@@ -1,32 +1,117 @@
 {
   "site": {
-    "title": "我的每日简报",
-    "subtitle": "每天 6 条，读完就够",
-    "author": "",
-    "lang": "zh-CN"
+    "title": "每日简报",
+    "subtitle_rotation": [
+      "雄关漫道真如铁，而今迈步从头越",
+      "不到长城非好汉，屈指行程二万",
+      "数风流人物，还看今朝",
+      "一万年太久，只争朝夕",
+      "世上无难事，只要肯登攀",
+      "牢骚太盛防肠断，风物长宜放眼量",
+      "为有牺牲多壮志，敢教日月换新天",
+      "天若有情天亦老，人间正道是沧桑",
+      "无限风光在险峰",
+      "待到山花烂漫时，她在丛中笑",
+      "雄关漫道真如铁",
+      "江山如此多娇，引无数英雄竞折腰"
+    ],
+    "lang": "zh-CN",
+    "wallpapers": [
+      "we_eri.jpg", "we_ai.jpg", "we_rei.jpg", "we_inori.jpg", "we_star.jpg",
+      "we_lake.jpg", "we_forest.jpg", "we_sea.jpg", "we_shanshui.jpg", "we_rain.jpg",
+      "night.jpg", "aurora.jpg"
+    ]
   },
   "output": {
     "top_n": 6,
-    "window_hours": 36,
+    "window_hours": 48,
     "max_per_source": 2
   },
   "keywords": {
     "must": [],
-    "boost": ["AI", "大模型", "开源", "发布", "融资", "芯片", "模型", "Agent", "推理", "智能体"],
-    "mute": ["招聘", "抽奖", "广告", "优惠券", "直播预告", "点击查看原文"]
+    "boost": ["AI", "大模型", "开源", "芯片", "模型", "Agent", "推理", "智能体",
+              "罢工", "革命", "抗议", "运动", "工人", "工会", "革命",
+              "发现", "研究", "突破", "首次", "科学家",
+              "央行", "利率", "通胀", "股市", "经济", "GDP", "债务"],
+    "mute": ["招聘", "抽奖", "广告", "优惠券", "直播预告", "点击查看原文", "Subscribe", "sponsored"]
   },
-  "sources": [
-    { "name": "Hacker News", "url": "https://hnrss.org/frontpage", "weight": 1.0, "lang": "en" },
-    { "name": "TechCrunch", "url": "https://techcrunch.com/feed/", "weight": 0.9, "lang": "en" },
-    { "name": "The Verge", "url": "https://www.theverge.com/rss/index.xml", "weight": 0.8, "lang": "en" },
-    { "name": "Ars Technica", "url": "https://feeds.arstechnica.com/arstechnica/index", "weight": 0.8, "lang": "en" },
-    { "name": "MIT Tech Review", "url": "https://www.technologyreview.com/feed/", "weight": 0.9, "lang": "en" },
-    { "name": "少数派", "url": "https://sspai.com/feed", "weight": 1.0, "lang": "zh" },
-    { "name": "爱范儿", "url": "https://www.ifanr.com/feed", "weight": 0.9, "lang": "zh" },
-    { "name": "极客公园", "url": "https://www.geekpark.net/rss", "weight": 0.9, "lang": "zh" },
-    { "name": "钛媒体", "url": "https://www.tmtpost.com/rss.xml", "weight": 0.7, "lang": "zh" },
-    { "name": "InfoQ 中文", "url": "https://www.infoq.cn/feed", "weight": 0.7, "lang": "zh" },
-    { "name": "阮一峰周刊", "url": "https://www.ruanyifeng.com/blog/atom.xml", "weight": 1.0, "lang": "zh" },
-    { "name": "36氪快讯", "url": "https://rsshub.rssforever.com/36kr/newsflashes", "weight": 0.8, "lang": "zh" }
+  "sections": [
+    {
+      "id": "tech",
+      "name": "科技",
+      "icon": "⚡",
+      "desc": "AI、开源、产品与前沿",
+      "top_n": 6,
+      "sources": [
+        { "name": "Hacker News", "url": "https://hnrss.org/frontpage", "weight": 1.0, "lang": "en" },
+        { "name": "TechCrunch", "url": "https://techcrunch.com/feed/", "weight": 0.9, "lang": "en" },
+        { "name": "The Verge", "url": "https://www.theverge.com/rss/index.xml", "weight": 0.85, "lang": "en" },
+        { "name": "Ars Technica", "url": "https://feeds.arstechnica.com/arstechnica/index", "weight": 0.85, "lang": "en" },
+        { "name": "MIT Tech Review", "url": "https://www.technologyreview.com/feed/", "weight": 0.9, "lang": "en" },
+        { "name": "少数派", "url": "https://sspai.com/feed", "weight": 1.0, "lang": "zh" },
+        { "name": "爱范儿", "url": "https://www.ifanr.com/feed", "weight": 0.9, "lang": "zh" },
+        { "name": "极客公园", "url": "https://www.geekpark.net/rss", "weight": 0.9, "lang": "zh" },
+        { "name": "钛媒体", "url": "https://www.tmtpost.com/rss.xml", "weight": 0.8, "lang": "zh" },
+        { "name": "InfoQ 中文", "url": "https://www.infoq.cn/feed", "weight": 0.75, "lang": "zh" },
+        { "name": "阮一峰", "url": "https://www.ruanyifeng.com/blog/atom.xml", "weight": 1.0, "lang": "zh" },
+        { "name": "36氪快讯", "url": "https://rsshub.rssforever.com/36kr/newsflashes", "weight": 0.8, "lang": "zh" }
+      ]
+    },
+    {
+      "id": "world",
+      "name": "国际",
+      "icon": "🌍",
+      "desc": "社会运动、劳工与变革",
+      "top_n": 6,
+      "sources": [
+        { "name": "Common Dreams", "url": "https://www.commondreams.org/rss.xml", "weight": 1.0, "lang": "en" },
+        { "name": "Peoples Dispatch", "url": "https://peoplesdispatch.org/feed/", "weight": 1.0, "lang": "en" },
+        { "name": "The Real News", "url": "https://therealnews.com/feed", "weight": 0.95, "lang": "en" },
+        { "name": "Monthly Review", "url": "https://monthlyreview.org/feed/", "weight": 1.0, "lang": "en" },
+        { "name": "Black Agenda Report", "url": "https://blackagendareport.com/rss.xml", "weight": 0.95, "lang": "en" },
+        { "name": "Socialist Project", "url": "https://socialistproject.ca/feed/", "weight": 0.9, "lang": "en" },
+        { "name": "New Frame", "url": "https://www.newframe.com/feed/", "weight": 0.9, "lang": "en" },
+        { "name": "Africa Is a Country", "url": "https://africasacountry.com/feed", "weight": 0.9, "lang": "en" },
+        { "name": "Anarchist Federation", "url": "https://afed.org.uk/feed/", "weight": 0.85, "lang": "en" },
+        { "name": "Industrial Worker", "url": "https://industrialworker.org/feed/", "weight": 0.85, "lang": "en" },
+        { "name": "Equal Times", "url": "https://www.equaltimes.org/spip.php?page=backend", "weight": 0.9, "lang": "en" }
+      ]
+    },
+    {
+      "id": "science",
+      "name": "科普",
+      "icon": "🔬",
+      "desc": "科学发现与自然世界",
+      "top_n": 6,
+      "sources": [
+        { "name": "Quanta Magazine", "url": "https://www.quantamagazine.org/feed/", "weight": 1.0, "lang": "en" },
+        { "name": "ScienceDaily", "url": "https://www.sciencedaily.com/rss/all.xml", "weight": 0.95, "lang": "en" },
+        { "name": "Phys.org", "url": "https://phys.org/rss-feed/", "weight": 0.9, "lang": "en" },
+        { "name": "Popular Science", "url": "https://www.popsci.com/arcio/rss/", "weight": 0.9, "lang": "en" },
+        { "name": "Smithsonian", "url": "https://www.smithsonianmag.com/rss/latest_articles/", "weight": 0.85, "lang": "en" },
+        { "name": "Nautilus", "url": "https://nautil.us/feed/", "weight": 0.9, "lang": "en" },
+        { "name": "Knowable", "url": "https://knowablemagazine.org/rss", "weight": 0.9, "lang": "en" },
+        { "name": "NASA", "url": "https://www.nasa.gov/rss/dyn/breaking_news.rss", "weight": 0.9, "lang": "en" },
+        { "name": "Space.com", "url": "https://www.space.com/feeds/all", "weight": 0.85, "lang": "en" },
+        { "name": "科学网", "url": "https://www.sciencenet.cn/xml/rss.aspx?di=0", "weight": 0.85, "lang": "zh" }
+      ]
+    },
+    {
+      "id": "economy",
+      "name": "经济",
+      "icon": "📈",
+      "desc": "宏观、市场与商业",
+      "top_n": 6,
+      "sources": [
+        { "name": "CNBC Economy", "url": "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258", "weight": 1.0, "lang": "en" },
+        { "name": "Fortune", "url": "https://fortune.com/feed", "weight": 0.9, "lang": "en" },
+        { "name": "Seeking Alpha", "url": "https://seekingalpha.com/market_currents.xml", "weight": 0.85, "lang": "en" },
+        { "name": "MarketWatch", "url": "https://feeds.content.dowjones.io/public/rss/mw_topstories", "weight": 0.9, "lang": "en" },
+        { "name": "Naked Capitalism", "url": "https://www.nakedcapitalism.com/feed", "weight": 0.9, "lang": "en" },
+        { "name": "界面新闻", "url": "https://a.jiemian.com/index.php?m=article&a=rss", "weight": 0.95, "lang": "zh" },
+        { "name": "雪球", "url": "https://xueqiu.com/hots/topic/rss", "weight": 0.85, "lang": "zh" },
+        { "name": "36氪快讯", "url": "https://rsshub.rssforever.com/36kr/newsflashes", "weight": 0.8, "lang": "zh" }
+      ]
+    }
   ]
 }
