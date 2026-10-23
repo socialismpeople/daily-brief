@@ -70,10 +70,15 @@ def build_section(section: dict, config: dict, seen: set[str],
     unique = dedupe.dedupe(raw, seen_hashes=seen)
     print(f"  去重后 {len(unique)} 条")
 
-    # 板块级关键词覆盖
+    # 板块级关键词与时间窗口覆盖
     sec_config = dict(config)
     sec_config["keywords"] = section.get("keywords", config.get("keywords", {}))
+    out_cfg = dict(config.get("output", {}))
+    if "window_hours" in section:
+        out_cfg["window_hours"] = section["window_hours"]
+    sec_config["output"] = out_cfg
     scored = rank.score_items(unique, sec_config, now=now)
+    print(f"  窗口 {out_cfg.get('window_hours')}h，通过筛选 {len(scored)} 条")
 
     limit = top_n or int(section.get("top_n", config.get("output", {}).get("top_n", 6)))
     max_per_source = int(config.get("output", {}).get("max_per_source", 2))
