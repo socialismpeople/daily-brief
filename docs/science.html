@@ -175,12 +175,23 @@ header.hero .sub::before{
   font-size:13.5px;color:rgb(255 255 255/.55);line-height:1.55;
   letter-spacing:.02em;
 }
-/* 预览列表：只在主角卡显示 */
+/* 预览列表：默认收起，悬停展开 */
 .sec-preview{
+  max-height:0;overflow:hidden;
+  margin-top:0;padding-top:0;border-top:0;
+  font-size:14.5px;color:rgb(255 255 255/.7);line-height:1.7;
+  opacity:0;
+  transition:
+    max-height .5s cubic-bezier(.34,1.4,.5,1),
+    margin-top .4s ease,
+    padding-top .4s ease,
+    opacity .35s ease;
+}
+.section-card:hover .sec-preview{
+  max-height:220px;
   margin-top:18px;padding-top:16px;
   border-top:1px solid rgb(255 255 255/.09);
-  font-size:14.5px;color:rgb(255 255 255/.7);line-height:1.7;
-  flex:1;
+  opacity:1;
 }
 .sec-preview li{
   list-style:none;margin-bottom:9px;padding-left:16px;position:relative;
@@ -191,7 +202,6 @@ header.hero .sub::before{
   content:"";position:absolute;left:0;top:.72em;
   width:6px;height:1px;background:rgb(255 255 255/.32);
 }
-.section-card:not(:first-child) .sec-preview{display:none}
 
 /* 进入箭头 */
 .sec-arrow{
@@ -475,7 +485,7 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255/.85)}
 <article class="glass card r-md">
 <div class="sheen"></div>
 <div class="row"><span class="idx">03</span>
-<span class="src">Space.com</span><span class="time">0.3h 前</span></div>
+<span class="src">Space.com</span><span class="time">0.6h 前</span></div>
 <h2><a href="https://www.space.com/space-exploration/satellites/space-debris-are-we-on-track-for-true-sustainability-op-ed" target="_blank" rel="noopener">Space debris: Are we on track for true sustainability? (op-ed)</a></h2>
 <p class="brief">Space is a critical infrastructure layer, underpinning nearly all systems that e</p>
 
@@ -484,7 +494,7 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255/.85)}
 <article class="glass card r-md">
 <div class="sheen"></div>
 <div class="row"><span class="idx">04</span>
-<span class="src">Phys.org</span><span class="time">1.8h 前</span></div>
+<span class="src">Phys.org</span><span class="time">2.1h 前</span></div>
 <h2><a href="https://phys.org/news/2026-10-taiwan-typhoon-champi-approaches.html" target="_blank" rel="noopener">Taiwan shuts down as Typhoon Champi approaches</a></h2>
 <p class="brief">Most shops and schools were shut across Taiwan on Friday as Typhoon Champi neare</p>
 
@@ -493,7 +503,7 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255/.85)}
 <article class="glass card r-md">
 <div class="sheen"></div>
 <div class="row"><span class="idx">05</span>
-<span class="src">Phys.org</span><span class="time">2.0h 前</span></div>
+<span class="src">Phys.org</span><span class="time">2.2h 前</span></div>
 <h2><a href="https://phys.org/news/2026-10-europe-killer-summer-climate-blamed.html" target="_blank" rel="noopener">Europe&#x27;s killer heat this summer claims 50,000 lives. Climate change blamed for two-thirds of deaths</a></h2>
 <p class="brief">Blistering record heat in Europe this summer helped kill more than 50,000 people</p>
 
@@ -502,7 +512,7 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255/.85)}
 <article class="glass card r-md">
 <div class="sheen"></div>
 <div class="row"><span class="idx">06</span>
-<span class="src">ScienceDaily</span><span class="time">6.8h 前</span></div>
+<span class="src">ScienceDaily</span><span class="time">7.0h 前</span></div>
 <h2><a href="https://www.sciencedaily.com/releases/2026/10/261021231241.htm" target="_blank" rel="noopener">40 years later, Chernobyl&#x27;s nuclear fallout is not what scientists expected</a></h2>
 <p class="brief">Forty years after the Chornobyl disaster, tiny radioactive particles still linge</p>
 
