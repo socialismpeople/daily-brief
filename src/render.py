@@ -330,6 +330,32 @@ ul.arch a:hover{transform:translateX(6px) scale(1.008)}
 ul.arch .arrow{color:rgb(255 255 255/.45);font-size:13px;transition:transform .32s}
 ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255/.85)}
 
+/* 归档：按日期分组 */
+.arch-day{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:16px 20px;margin-bottom:12px;
+  background:rgb(20 22 34/.30);
+  border-radius:16px;
+  box-shadow:inset 0 0 0 1px rgb(255 255 255/.08);
+}
+.arch-date{
+  font-family:"XingKai","STXingkai",serif;
+  font-size:21px;color:#fff;letter-spacing:.04em;
+  flex:none;
+}
+.arch-links{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.arch-sub{
+  display:inline-block;padding:5px 13px;border-radius:10px;
+  font-size:13px;font-weight:600;color:rgb(255 255 255/.75);
+  text-decoration:none;background:rgb(255 255 255/.08);
+  box-shadow:inset 0 0 0 1px rgb(255 255 255/.10);
+  transition:all .26s cubic-bezier(.34,1.7,.5,1);
+}
+.arch-sub:hover{
+  color:#fff;background:rgb(255 255 255/.18);
+  transform:translateY(-2px);
+}
+
 /* 板块页导航 */
 .tabs{
   display:flex;gap:8px;margin-bottom:20px;padding:8px;flex-wrap:wrap;
@@ -346,29 +372,99 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255/.85)}
   box-shadow:inset 0 0 0 1px rgb(255 255 255/.22);
 }
 
-@media(max-width:820px){header.hero{--hero-scale:1.05}}
+/* ============ 响应式 ============ */
+/* 平板 */
+@media(max-width:820px){
+  .wrap{padding:0 14px}
+}
+
+/* 手机 */
 @media(max-width:600px){
-  body{padding:30px 12px 56px}
-  header.hero{padding:28px 20px}
-  header.hero{padding:36px 14px 32px}
-  header.hero h1{font-size:52px}
-  header.hero .sub{font-size:15.5px;margin-top:16px}
-  .sections{grid-template-columns:1fr;gap:12px}
-  .section-card{padding:22px 20px 18px}
-  .sec-name{font-size:30px}
-  .section-card:not(:first-child) .sec-name{font-size:26px}
-  .sec-no{font-size:36px}
-  .card{padding:19px 19px;margin-bottom:18px}
-  .card h2{font-size:19px}
-  .section-card{padding:20px 20px}
-  .sec-name{font-size:20px}
+  body{padding:26px 10px 48px}
+
+  /* 页头：毛笔字缩小但保持气势 */
+  header.hero{padding:32px 10px 28px}
+  header.hero h1{font-size:54px;letter-spacing:.02em}
+  header.hero .sub{font-size:15px;margin-top:14px;line-height:1.7}
+  header.hero .sub::before{width:36px;margin-bottom:14px}
+  .kicker{font-size:9.5px;letter-spacing:.28em;margin-bottom:16px}
+
+  /* 板块卡：单列、紧凑 */
+  .sections{gap:10px;margin-bottom:18px}
+  .section-card{padding:20px 18px 16px}
+  .section-card:nth-child(1){padding:22px 18px 18px}
+  .sec-name{font-size:28px}
+  .section-card:not(:first-child) .sec-name{font-size:25px}
+  .sec-count{font-size:11.5px}
+  .sec-desc{font-size:13px}
+  .sec-no{font-size:34px;top:10px;right:14px}
+  .sec-preview{margin-top:14px;padding-top:12px;font-size:13.5px;line-height:1.65}
+  .sec-preview li{margin-bottom:7px;padding-left:14px}
+  .sec-arrow{font-size:12px;margin-top:12px}
+
+  /* 条目卡 */
+  .card{padding:18px 17px;margin-bottom:14px}
+  .card h2{font-size:17.5px;line-height:1.5}
+  .card p.brief{font-size:15px;margin-top:9px;line-height:1.7}
+  .card p.why{font-size:14px;margin-top:10px;padding:9px 12px}
+  .card .go{font-size:13px;margin-top:12px;padding:6px 13px}
+  .row{margin-bottom:10px}
+  .idx{min-width:24px;height:24px;font-size:12px}
+  .src{font-size:13px}
+  .time{font-size:12px}
+
+  /* 圆角略收 */
   .r-lg{border-radius:22px}
   .r-md{border-radius:18px}
   .r-sm{border-radius:14px}
-  footer.site{flex-direction:column;align-items:flex-start;gap:6px}
+
+  /* 导航标签：可横向滑动 */
+  .tabs{
+    padding:6px;gap:5px;flex-wrap:nowrap;overflow-x:auto;
+    justify-content:flex-start;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;
+    margin-bottom:16px;
+  }
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{padding:6px 13px;font-size:13.5px;flex:none}
+
+  /* 页脚 */
+  footer.site{
+    flex-direction:row;justify-content:space-between;align-items:center;
+    font-size:12.5px;padding:14px 16px;
+  }
+
+  /* 返回 / 归档 */
+  .back{font-size:13.5px;padding:7px 15px;margin-bottom:16px}
+  ul.arch a{padding:14px 16px;margin-bottom:11px;font-size:14.5px}
+  .empty{padding:48px 18px;font-size:15px}
+
+  /* 移动端关闭 hover 位移与跟随高光 */
   .card:hover,.glass:hover,.section-card:hover{transform:none;z-index:auto}
   .card::after{display:none}
 }
+
+/* 超小屏（iPhone SE 等） */
+@media(max-width:380px){
+  header.hero h1{font-size:44px}
+  header.hero .sub{font-size:13.5px}
+  .sec-name{font-size:25px}
+  .section-card:not(:first-child) .sec-name{font-size:23px}
+  .card h2{font-size:16px}
+  .card p.brief{font-size:14.5px}
+}
+
+/* 横屏手机 */
+@media(max-width:900px) and (orientation:landscape) and (max-height:500px){
+  body{padding:20px 12px 32px}
+  header.hero{padding:20px 10px}
+  header.hero h1{font-size:38px}
+  header.hero .sub{font-size:13px;margin-top:8px}
+  header.hero .sub::before{display:none}
+}
+
+/* 减少动画 */
+
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
   .card,.section-card{opacity:1!important}
@@ -526,7 +622,7 @@ def _copy_assets(out_dir: Path) -> None:
 
 
 def _tabs(sections: list[dict], active: str, depth: int = 0) -> str:
-    prefix = "" if depth == 0 else ""
+    prefix = "../" * depth
     parts = [f'<a class="tab" href="{prefix}index.html">首页</a>']
     for s in sections:
         sid = s.get("id")
@@ -607,36 +703,48 @@ def write_all(results: dict[str, list[Item]], sections: list[dict], date_str: st
             encoding="utf-8",
         )
 
-        # 板块归档页
+        # 板块归档页：按日期分目录，避免每天覆盖
+        arch_dir = out_dir / "archive" / date_str
+        arch_dir.mkdir(parents=True, exist_ok=True)
         arch_body = f"""<header class="hero">
 <p class="kicker">Archive</p>
 <h1 class="brush">{_nice_date(date_str)}</h1>
 <p class="sub">{_esc(subtitle)}</p>
 </header>
-<a class="back glass r-sm" href="../{sid}.html">← 返回{_esc(name)}</a>
+<a class="back glass r-sm" href="../../{sid}.html">← 返回{_esc(name)}</a>
+{_tabs(sections, sid, depth=2)}
 {_entries_html(items)}"""
-        (out_dir / "archive" / f"{sid}.html").write_text(
+        (arch_dir / f"{sid}.html").write_text(
             _render_page(f"{name} · 归档 · {_nice_date(date_str)}", arch_body, site,
                          extra_head='<meta name="robots" content="noindex">',
-                         depth=1, wallpaper=wall),
+                         depth=2, wallpaper=wall),
             encoding="utf-8",
         )
 
-    # ---------- 归档索引 ----------
-    arch_items = "".join(
-        f'<li><a class="glass r-sm" href="archive/{s.get("id")}.html">'
-        f'<span>{_esc(s.get("name", ""))}'
-        f' · {_nice_date(date_str)}</span>'
-        f'<span class="arrow">→</span></a></li>'
-        for s in sections
-    )
+    # ---------- 归档索引：按日期分组 ----------
+    dates = _all_archive_dates(out_dir)
+    day_blocks = []
+    for d in dates:
+        links = "".join(
+            f'<a class="arch-sub" href="{d}/{s.get("id")}.html">'
+            f'{_esc(s.get("name", ""))}</a>'
+            for s in sections
+            if (out_dir / "archive" / d / f"{s.get('id')}.html").exists()
+        )
+        day_blocks.append(
+            f'<li class="arch-day">'
+            f'<span class="arch-date">{_nice_date(d)}</span>'
+            f'<span class="arch-links">{links}</span>'
+            f'</li>'
+        )
+
     arch_body = f"""<header class="hero">
 <p class="kicker">Archive</p>
 <h1 class="brush">历史归档</h1>
-<p class="sub">{_nice_date(date_str)}</p>
+<p class="sub">共 {len(dates)} 期</p>
 </header>
 <a class="back glass r-sm" href="../index.html">← 返回首页</a>
-<ul class="arch">{arch_items}</ul>"""
+<ul class="arch">{''.join(day_blocks) or '<li class="arch-day"><span>暂无归档</span></li>'}</ul>"""
     (out_dir / "archive" / "index.html").write_text(
         _render_page("历史归档", arch_body, site,
                      extra_head='<meta name="robots" content="noindex">',
@@ -646,5 +754,17 @@ def write_all(results: dict[str, list[Item]], sections: list[dict], date_str: st
 
     # 日期索引
     (out_dir / "dates.json").write_text(
-        json.dumps([date_str], ensure_ascii=False, indent=2), encoding="utf-8"
+        json.dumps(dates, ensure_ascii=False, indent=2), encoding="utf-8"
     )
+
+
+def _all_archive_dates(out_dir: Path) -> list[str]:
+    """扫描 archive/ 下所有 YYYY-MM-DD 目录，倒序返回。"""
+    arch = out_dir / "archive"
+    if not arch.exists():
+        return []
+    dates = [
+        p.name for p in arch.iterdir()
+        if p.is_dir() and len(p.name) == 10 and p.name[4] == "-" and p.name[7] == "-"
+    ]
+    return sorted(dates, reverse=True)
