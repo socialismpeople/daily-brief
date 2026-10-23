@@ -203,12 +203,23 @@ header.hero .sub::before{
   font-size:13.5px;color:rgb(255 255 255/.55);line-height:1.55;
   letter-spacing:.02em;
 }
-/* 预览列表：只在主角卡显示 */
+/* 预览列表：默认收起，悬停展开 */
 .sec-preview{
+  max-height:0;overflow:hidden;
+  margin-top:0;padding-top:0;border-top:0;
+  font-size:14.5px;color:rgb(255 255 255/.7);line-height:1.7;
+  opacity:0;
+  transition:
+    max-height .5s cubic-bezier(.34,1.4,.5,1),
+    margin-top .4s ease,
+    padding-top .4s ease,
+    opacity .35s ease;
+}
+.section-card:hover .sec-preview{
+  max-height:220px;
   margin-top:18px;padding-top:16px;
   border-top:1px solid rgb(255 255 255/.09);
-  font-size:14.5px;color:rgb(255 255 255/.7);line-height:1.7;
-  flex:1;
+  opacity:1;
 }
 .sec-preview li{
   list-style:none;margin-bottom:9px;padding-left:16px;position:relative;
@@ -219,7 +230,6 @@ header.hero .sub::before{
   content:"";position:absolute;left:0;top:.72em;
   width:6px;height:1px;background:rgb(255 255 255/.32);
 }
-.section-card:not(:first-child) .sec-preview{display:none}
 
 /* 进入箭头 */
 .sec-arrow{
