@@ -63,18 +63,22 @@
       "icon": "🌍",
       "desc": "社会运动、劳工与变革",
       "top_n": 6,
+      "window_hours": 336,
       "sources": [
         { "name": "Common Dreams", "url": "https://www.commondreams.org/rss.xml", "weight": 1.0, "lang": "en" },
-        { "name": "Peoples Dispatch", "url": "https://peoplesdispatch.org/feed/", "weight": 1.0, "lang": "en" },
+        { "name": "Socialist Project", "url": "https://socialistproject.ca/feed/", "weight": 1.0, "lang": "en" },
+        { "name": "Consortium News", "url": "https://consortiumnews.com/feed/", "weight": 0.95, "lang": "en" },
         { "name": "The Real News", "url": "https://therealnews.com/feed", "weight": 0.95, "lang": "en" },
-        { "name": "Monthly Review", "url": "https://monthlyreview.org/feed/", "weight": 1.0, "lang": "en" },
-        { "name": "Black Agenda Report", "url": "https://blackagendareport.com/rss.xml", "weight": 0.95, "lang": "en" },
-        { "name": "Socialist Project", "url": "https://socialistproject.ca/feed/", "weight": 0.9, "lang": "en" },
-        { "name": "New Frame", "url": "https://www.newframe.com/feed/", "weight": 0.9, "lang": "en" },
-        { "name": "Africa Is a Country", "url": "https://africasacountry.com/feed", "weight": 0.9, "lang": "en" },
-        { "name": "Anarchist Federation", "url": "https://afed.org.uk/feed/", "weight": 0.85, "lang": "en" },
-        { "name": "Industrial Worker", "url": "https://industrialworker.org/feed/", "weight": 0.85, "lang": "en" },
-        { "name": "Equal Times", "url": "https://www.equaltimes.org/spip.php?page=backend", "weight": 0.9, "lang": "en" }
+        { "name": "Electronic Intifada", "url": "https://electronicintifada.net/rss.xml", "weight": 0.95, "lang": "en" },
+        { "name": "Mondoweiss", "url": "https://mondoweiss.net/feed/", "weight": 0.9, "lang": "en" },
+        { "name": "MintPress", "url": "https://www.mintpressnews.com/feed/", "weight": 0.9, "lang": "en" },
+        { "name": "Grayzone", "url": "https://thegrayzone.com/feed/", "weight": 0.9, "lang": "en" },
+        { "name": "UN News", "url": "https://news.un.org/feed/subscribe/en/news/all/rss.xml", "weight": 0.9, "lang": "en" },
+        { "name": "France24", "url": "https://www.france24.com/en/rss", "weight": 0.85, "lang": "en" },
+        { "name": "CGTN World", "url": "https://www.cgtn.com/subscribe/rss/section/world.xml", "weight": 0.85, "lang": "en" },
+        { "name": "Global Times", "url": "https://www.globaltimes.cn/rss/outbrain.xml", "weight": 0.85, "lang": "en" },
+        { "name": "Premium Times", "url": "https://www.premiumtimesng.com/feed", "weight": 0.8, "lang": "en" },
+        { "name": "Monthly Review", "url": "https://monthlyreview.org/feed/", "weight": 0.85, "lang": "en" }
       ]
     },
     {
