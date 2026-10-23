@@ -18,26 +18,9 @@ ROOT = Path(__file__).resolve().parent.parent
 ASSETS_SRC = ROOT / "assets"
 WALLPAPER_DIR = ASSETS_SRC / "wallpapers"
 
-DEFAULT_POOL = [
-    "we_eri.jpg", "we_ai.jpg", "we_rei.jpg", "we_inori.jpg", "we_star.jpg",
-    "we_lake.jpg", "we_forest.jpg", "we_sea.jpg", "we_shanshui.jpg", "we_rain.jpg",
-    "night.jpg", "aurora.jpg",
-]
-
-DEFAULT_SUBTITLES = [
-    "雄关漫道真如铁，而今迈步从头越",
-    "不到长城非好汉，屈指行程二万",
-    "数风流人物，还看今朝",
-    "一万年太久，只争朝夕",
-    "世上无难事，只要肯登攀",
-    "牢骚太盛防肠断，风物长宜放眼量",
-    "为有牺牲多壮志，敢教日月换新天",
-    "天若有情天亦老，人间正道是沧桑",
-    "无限风光在险峰",
-    "待到山花烂漫时，她在丛中笑",
-    "江山如此多娇，引无数英雄竞折腰",
-    "雄关漫道真如铁",
-]
+# 兜底：config.json 缺失对应字段时使用
+FALLBACK_WALLPAPER = "night.jpg"
+FALLBACK_SUBTITLE = "雄关漫道真如铁，而今迈步从头越"
 
 CSS = """
 *{margin:0;padding:0;box-sizing:border-box}
@@ -519,17 +502,19 @@ def _seed(text: str) -> int:
 
 
 def pick_wallpaper(date_str: str, site: dict) -> str:
-    pool = site.get("wallpapers") or DEFAULT_POOL
+    """按日期稳定轮换壁纸：同一天固定同一张，每天换一张。"""
+    pool = site.get("wallpapers") or []
     pool = [p for p in pool if (WALLPAPER_DIR / p).exists()]
     if not pool:
-        return "night.jpg"
+        return FALLBACK_WALLPAPER
     return pool[_seed(date_str) % len(pool)]
 
 
 def pick_subtitle(date_str: str, site: dict) -> str:
-    pool = site.get("subtitle_rotation") or DEFAULT_SUBTITLES
+    """按日期稳定轮换副标题（毛主席词句）。"""
+    pool = site.get("subtitle_rotation") or []
     if not pool:
-        return ""
+        return FALLBACK_SUBTITLE
     return pool[_seed("sub-" + date_str) % len(pool)]
 
 
