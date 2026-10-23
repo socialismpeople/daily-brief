@@ -302,6 +302,32 @@ ul.arch a:hover{transform:translateX(6px) scale(1.008)}
 ul.arch .arrow{color:rgb(255 255 255/.45);font-size:13px;transition:transform .32s}
 ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255/.85)}
 
+/* 归档：按日期分组 */
+.arch-day{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:16px 20px;margin-bottom:12px;
+  background:rgb(20 22 34/.30);
+  border-radius:16px;
+  box-shadow:inset 0 0 0 1px rgb(255 255 255/.08);
+}
+.arch-date{
+  font-family:"XingKai","STXingkai",serif;
+  font-size:21px;color:#fff;letter-spacing:.04em;
+  flex:none;
+}
+.arch-links{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.arch-sub{
+  display:inline-block;padding:5px 13px;border-radius:10px;
+  font-size:13px;font-weight:600;color:rgb(255 255 255/.75);
+  text-decoration:none;background:rgb(255 255 255/.08);
+  box-shadow:inset 0 0 0 1px rgb(255 255 255/.10);
+  transition:all .26s cubic-bezier(.34,1.7,.5,1);
+}
+.arch-sub:hover{
+  color:#fff;background:rgb(255 255 255/.18);
+  transform:translateY(-2px);
+}
+
 /* 板块页导航 */
 .tabs{
   display:flex;gap:8px;margin-bottom:20px;padding:8px;flex-wrap:wrap;
@@ -318,29 +344,99 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255/.85)}
   box-shadow:inset 0 0 0 1px rgb(255 255 255/.22);
 }
 
-@media(max-width:820px){header.hero{--hero-scale:1.05}}
+/* ============ 响应式 ============ */
+/* 平板 */
+@media(max-width:820px){
+  .wrap{padding:0 14px}
+}
+
+/* 手机 */
 @media(max-width:600px){
-  body{padding:30px 12px 56px}
-  header.hero{padding:28px 20px}
-  header.hero{padding:36px 14px 32px}
-  header.hero h1{font-size:52px}
-  header.hero .sub{font-size:15.5px;margin-top:16px}
-  .sections{grid-template-columns:1fr;gap:12px}
-  .section-card{padding:22px 20px 18px}
-  .sec-name{font-size:30px}
-  .section-card:not(:first-child) .sec-name{font-size:26px}
-  .sec-no{font-size:36px}
-  .card{padding:19px 19px;margin-bottom:18px}
-  .card h2{font-size:19px}
-  .section-card{padding:20px 20px}
-  .sec-name{font-size:20px}
+  body{padding:26px 10px 48px}
+
+  /* 页头：毛笔字缩小但保持气势 */
+  header.hero{padding:32px 10px 28px}
+  header.hero h1{font-size:54px;letter-spacing:.02em}
+  header.hero .sub{font-size:15px;margin-top:14px;line-height:1.7}
+  header.hero .sub::before{width:36px;margin-bottom:14px}
+  .kicker{font-size:9.5px;letter-spacing:.28em;margin-bottom:16px}
+
+  /* 板块卡：单列、紧凑 */
+  .sections{gap:10px;margin-bottom:18px}
+  .section-card{padding:20px 18px 16px}
+  .section-card:nth-child(1){padding:22px 18px 18px}
+  .sec-name{font-size:28px}
+  .section-card:not(:first-child) .sec-name{font-size:25px}
+  .sec-count{font-size:11.5px}
+  .sec-desc{font-size:13px}
+  .sec-no{font-size:34px;top:10px;right:14px}
+  .sec-preview{margin-top:14px;padding-top:12px;font-size:13.5px;line-height:1.65}
+  .sec-preview li{margin-bottom:7px;padding-left:14px}
+  .sec-arrow{font-size:12px;margin-top:12px}
+
+  /* 条目卡 */
+  .card{padding:18px 17px;margin-bottom:14px}
+  .card h2{font-size:17.5px;line-height:1.5}
+  .card p.brief{font-size:15px;margin-top:9px;line-height:1.7}
+  .card p.why{font-size:14px;margin-top:10px;padding:9px 12px}
+  .card .go{font-size:13px;margin-top:12px;padding:6px 13px}
+  .row{margin-bottom:10px}
+  .idx{min-width:24px;height:24px;font-size:12px}
+  .src{font-size:13px}
+  .time{font-size:12px}
+
+  /* 圆角略收 */
   .r-lg{border-radius:22px}
   .r-md{border-radius:18px}
   .r-sm{border-radius:14px}
-  footer.site{flex-direction:column;align-items:flex-start;gap:6px}
+
+  /* 导航标签：可横向滑动 */
+  .tabs{
+    padding:6px;gap:5px;flex-wrap:nowrap;overflow-x:auto;
+    justify-content:flex-start;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;
+    margin-bottom:16px;
+  }
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{padding:6px 13px;font-size:13.5px;flex:none}
+
+  /* 页脚 */
+  footer.site{
+    flex-direction:row;justify-content:space-between;align-items:center;
+    font-size:12.5px;padding:14px 16px;
+  }
+
+  /* 返回 / 归档 */
+  .back{font-size:13.5px;padding:7px 15px;margin-bottom:16px}
+  ul.arch a{padding:14px 16px;margin-bottom:11px;font-size:14.5px}
+  .empty{padding:48px 18px;font-size:15px}
+
+  /* 移动端关闭 hover 位移与跟随高光 */
   .card:hover,.glass:hover,.section-card:hover{transform:none;z-index:auto}
   .card::after{display:none}
 }
+
+/* 超小屏（iPhone SE 等） */
+@media(max-width:380px){
+  header.hero h1{font-size:44px}
+  header.hero .sub{font-size:13.5px}
+  .sec-name{font-size:25px}
+  .section-card:not(:first-child) .sec-name{font-size:23px}
+  .card h2{font-size:16px}
+  .card p.brief{font-size:14.5px}
+}
+
+/* 横屏手机 */
+@media(max-width:900px) and (orientation:landscape) and (max-height:500px){
+  body{padding:20px 12px 32px}
+  header.hero{padding:20px 10px}
+  header.hero h1{font-size:38px}
+  header.hero .sub{font-size:13px;margin-top:8px}
+  header.hero .sub::before{display:none}
+}
+
+/* 减少动画 */
+
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
   .card,.section-card{opacity:1!important}
@@ -361,56 +457,56 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255/.85)}
 <article class="glass card r-md">
 <div class="sheen"></div>
 <div class="row"><span class="idx">01</span>
-<span class="src">Black Agenda Report</span><span class="time">3.1h 前</span></div>
-<h2><a href="https://blackagendareport.com/french-protests-against-neoliberal-austerity-colonialism-and-white-supremacy" target="_blank" rel="noopener">French Protests Against Neoliberal Austerity, Colonialism, and White Supremacy</a></h2>
-<p class="brief">French Protests Against Neoliberal Austerity, Colonialism, and White Supremacy A</p>
+<span class="src">France24</span><span class="time">1.1h 前</span></div>
+<h2><a href="https://www.france24.com/en/politics-in-materialist-terms-gen-z-in-albania-italy-france-and-india-protesting-for-fairness" target="_blank" rel="noopener">Politics in &#x27;materialist terms&#x27;: Gen Z in Albania, Italy, France and India protesting for &#x27;fairness&#x27;</a></h2>
+<p class="brief">Jean-Emile Jammine is pleased to welcome Gökçe Tuncel, Sociologist and post-doct</p>
 
-<a class="go" href="https://blackagendareport.com/french-protests-against-neoliberal-austerity-colonialism-and-white-supremacy" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+<a class="go" href="https://www.france24.com/en/politics-in-materialist-terms-gen-z-in-albania-italy-france-and-india-protesting-for-fairness" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <article class="glass card r-md">
 <div class="sheen"></div>
 <div class="row"><span class="idx">02</span>
-<span class="src">Black Agenda Report</span><span class="time">3.0h 前</span></div>
-<h2><a href="https://blackagendareport.com/black-agenda-report-october-23-2026" target="_blank" rel="noopener">Black Agenda Report October 23, 2026</a></h2>
-<p class="brief">Black Agenda Report October 23, 2026 Authors Black Agenda Radio with Margaret Ki</p>
+<span class="src">France24</span><span class="time">1.6h 前</span></div>
+<h2><a href="https://www.france24.com/en/ivory-coast-children-face-serious-health-risks-from-lead-in-paint" target="_blank" rel="noopener">Ivory Coast: Children face serious health risks from lead in paint</a></h2>
+<p class="brief">Report by Jean Barrère &amp; Guillaume Gougeon</p>
 
-<a class="go" href="https://blackagendareport.com/black-agenda-report-october-23-2026" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+<a class="go" href="https://www.france24.com/en/ivory-coast-children-face-serious-health-risks-from-lead-in-paint" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <article class="glass card r-md">
 <div class="sheen"></div>
 <div class="row"><span class="idx">03</span>
-<span class="src">Common Dreams</span><span class="time">7.6h 前</span></div>
-<h2><a href="https://www.commondreams.org/newswire/cair-demands-u-s-firm-halt-shipment-of-electroshock-weapons-to-israel-for-use-in-torture-against-palestinian-detainees" target="_blank" rel="noopener">CAIR Demands U.S. Firm Halt Shipment of Electroshock Weapons to Israel for Use in Torture Against Palestinian Detainees</a></h2>
-<p class="brief">The Council on American-Islamic Relations (CAIR), the nation’s largest Muslim ci</p>
+<span class="src">Socialist Project</span><span class="time">0.2h 前</span></div>
+<h2><a href="https://thomaspiketty.wordpress.com/2026/10/20/high-schoolers-students-the-twilight-of-macronism" target="_blank" rel="noopener">The twilight of macronism</a></h2>
+<p class="brief">Young people are asking for one simple thing: resources to get an education</p>
 
-<a class="go" href="https://www.commondreams.org/newswire/cair-demands-u-s-firm-halt-shipment-of-electroshock-weapons-to-israel-for-use-in-torture-against-palestinian-detainees" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+<a class="go" href="https://thomaspiketty.wordpress.com/2026/10/20/high-schoolers-students-the-twilight-of-macronism" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <article class="glass card r-md">
 <div class="sheen"></div>
 <div class="row"><span class="idx">04</span>
-<span class="src">Common Dreams</span><span class="time">8.2h 前</span></div>
-<h2><a href="https://www.commondreams.org/newswire/new-itep-study-major-corporations-paid-lowest-federal-tax-rate-in-decades-following-trump-tax-cuts" target="_blank" rel="noopener">New ITEP Study: Major Corporations Paid Lowest Federal Tax Rate in Decades Following Trump Tax Cuts</a></h2>
-<p class="brief">The nation’s largest and most profitable corporations paid an average federal in</p>
+<span class="src">Premium Times</span><span class="time">0.7h 前</span></div>
+<h2><a href="https://www.premiumtimesng.com/regional/nnorth-east/919526-three-sentenced-to-death-for-kidnapping-catholic-priests.html" target="_blank" rel="noopener">Three sentenced to death for kidnapping Catholic priests</a></h2>
+<p class="brief">Taledo Demiel, Namomai Medan and Mikaila Yusuf were convicted over the abduction</p>
 
-<a class="go" href="https://www.commondreams.org/newswire/new-itep-study-major-corporations-paid-lowest-federal-tax-rate-in-decades-following-trump-tax-cuts" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+<a class="go" href="https://www.premiumtimesng.com/regional/nnorth-east/919526-three-sentenced-to-death-for-kidnapping-catholic-priests.html" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <article class="glass card r-md">
 <div class="sheen"></div>
 <div class="row"><span class="idx">05</span>
-<span class="src">The Real News</span><span class="time">8.3h 前</span></div>
-<h2><a href="https://therealnews.com/panther-spirit-in-dc-organizing-against-trumps-fascist-push" target="_blank" rel="noopener">Panther spirit in DC: Organizing against Trump’s fascist push</a></h2>
-<p class="brief">&quot;We want to be really clear that it is time for these armed soldiers to leave DC</p>
+<span class="src">Common Dreams</span><span class="time">3.2h 前</span></div>
+<h2><a href="https://www.commondreams.org/further/being-there-are-these-people-in-the-room-with-us" target="_blank" rel="noopener">Being There: Are These People In the Room With Us?</a></h2>
+<p class="brief">These truly-through-the-looking-glass days, it seems the drunk uncle you really </p>
 
-<a class="go" href="https://therealnews.com/panther-spirit-in-dc-organizing-against-trumps-fascist-push" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+<a class="go" href="https://www.commondreams.org/further/being-there-are-these-people-in-the-room-with-us" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <article class="glass card r-md">
 <div class="sheen"></div>
 <div class="row"><span class="idx">06</span>
-<span class="src">Industrial Worker</span><span class="time">11.3h 前</span></div>
-<h2><a href="https://industrialworker.org/bandaid-brigade" target="_blank" rel="noopener">Bandaid Brigade</a></h2>
-<p class="brief">I am a Shop Delegate for and member of the Bandaid Brigade Campaign, IU 610</p>
+<span class="src">Premium Times</span><span class="time">2.0h 前</span></div>
+<h2><a href="https://www.premiumtimesng.com/news/more-news/919511-tinubu-appoints-former-sss-dg-as-governing-board-chair-of-niss.html" target="_blank" rel="noopener">Tinubu appoints former SSS DG as Governing Board Chair of NISS</a></h2>
+<p class="brief">The former DG began his career in the Security Division of the Kano State Cabine</p>
 
-<a class="go" href="https://industrialworker.org/bandaid-brigade" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+<a class="go" href="https://www.premiumtimesng.com/news/more-news/919511-tinubu-appoints-former-sss-dg-as-governing-board-chair-of-niss.html" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <footer class="site glass r-sm">
 <span>10月23日 星期五 · 6 条</span>
