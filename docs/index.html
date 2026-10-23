@@ -175,12 +175,23 @@ header.hero .sub::before{
   font-size:13.5px;color:rgb(255 255 255/.55);line-height:1.55;
   letter-spacing:.02em;
 }
-/* 预览列表：只在主角卡显示 */
+/* 预览列表：默认收起，悬停展开 */
 .sec-preview{
+  max-height:0;overflow:hidden;
+  margin-top:0;padding-top:0;border-top:0;
+  font-size:14.5px;color:rgb(255 255 255/.7);line-height:1.7;
+  opacity:0;
+  transition:
+    max-height .5s cubic-bezier(.34,1.4,.5,1),
+    margin-top .4s ease,
+    padding-top .4s ease,
+    opacity .35s ease;
+}
+.section-card:hover .sec-preview{
+  max-height:220px;
   margin-top:18px;padding-top:16px;
   border-top:1px solid rgb(255 255 255/.09);
-  font-size:14.5px;color:rgb(255 255 255/.7);line-height:1.7;
-  flex:1;
+  opacity:1;
 }
 .sec-preview li{
   list-style:none;margin-bottom:9px;padding-left:16px;position:relative;
@@ -191,7 +202,6 @@ header.hero .sub::before{
   content:"";position:absolute;left:0;top:.72em;
   width:6px;height:1px;background:rgb(255 255 255/.32);
 }
-.section-card:not(:first-child) .sec-preview{display:none}
 
 /* 进入箭头 */
 .sec-arrow{
@@ -462,7 +472,7 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255/.85)}
 <span class="sec-count">6 条</span>
 </div>
 <p class="sec-desc">AI、开源、产品与前沿</p>
-<ul class="sec-preview"><li>决策模型也有专用推理引擎了：StartLux 开源 Prism，单卡最高提速 5.3 倍</li><li>韩国央行行长称将调整政策，为高增长高利率环境做准备</li><li>中国人民银行行长潘功胜会见彼得森国际经济研究所代表团</li></ul>
+<ul class="sec-preview"><li>国家信息化“十五五”规划：做精做细芯片成熟制程，提高先进制程制造能力</li><li>决策模型也有专用推理引擎了：StartLux 开源 Prism，单卡最高提速 5.3 倍</li><li>韩国央行行长称将调整政策，为高增长高利率环境做准备</li></ul>
 <span class="sec-arrow">进入 <span>→</span></span>
 </a><a class="glass section-card r-md" href="world.html">
 <div class="sheen"></div>
@@ -492,7 +502,7 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255/.85)}
 <span class="sec-count">6 条</span>
 </div>
 <p class="sec-desc">宏观、市场与商业</p>
-<ul class="sec-preview"><li>中国人民银行行长潘功胜会见彼得森国际经济研究所代表团</li><li>韩国央行行长称将调整政策，为高增长高利率环境做准备</li><li>US Banks Scramble to Shut Down AI Access to Customer Accounts</li></ul>
+<ul class="sec-preview"><li>随想379 折现率对不同久期资产的影响</li><li>韩国央行行长称将调整政策，为高增长高利率环境做准备</li><li>AI持续调整，市场在给什么定价？</li></ul>
 <span class="sec-arrow">进入 <span>→</span></span>
 </a>
 </div>
