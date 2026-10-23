@@ -302,6 +302,32 @@ ul.arch a:hover{transform:translateX(6px) scale(1.008)}
 ul.arch .arrow{color:rgb(255 255 255/.45);font-size:13px;transition:transform .32s}
 ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255/.85)}
 
+/* 归档：按日期分组 */
+.arch-day{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:16px 20px;margin-bottom:12px;
+  background:rgb(20 22 34/.30);
+  border-radius:16px;
+  box-shadow:inset 0 0 0 1px rgb(255 255 255/.08);
+}
+.arch-date{
+  font-family:"XingKai","STXingkai",serif;
+  font-size:21px;color:#fff;letter-spacing:.04em;
+  flex:none;
+}
+.arch-links{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.arch-sub{
+  display:inline-block;padding:5px 13px;border-radius:10px;
+  font-size:13px;font-weight:600;color:rgb(255 255 255/.75);
+  text-decoration:none;background:rgb(255 255 255/.08);
+  box-shadow:inset 0 0 0 1px rgb(255 255 255/.10);
+  transition:all .26s cubic-bezier(.34,1.7,.5,1);
+}
+.arch-sub:hover{
+  color:#fff;background:rgb(255 255 255/.18);
+  transform:translateY(-2px);
+}
+
 /* 板块页导航 */
 .tabs{
   display:flex;gap:8px;margin-bottom:20px;padding:8px;flex-wrap:wrap;
@@ -318,29 +344,99 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255/.85)}
   box-shadow:inset 0 0 0 1px rgb(255 255 255/.22);
 }
 
-@media(max-width:820px){header.hero{--hero-scale:1.05}}
+/* ============ 响应式 ============ */
+/* 平板 */
+@media(max-width:820px){
+  .wrap{padding:0 14px}
+}
+
+/* 手机 */
 @media(max-width:600px){
-  body{padding:30px 12px 56px}
-  header.hero{padding:28px 20px}
-  header.hero{padding:36px 14px 32px}
-  header.hero h1{font-size:52px}
-  header.hero .sub{font-size:15.5px;margin-top:16px}
-  .sections{grid-template-columns:1fr;gap:12px}
-  .section-card{padding:22px 20px 18px}
-  .sec-name{font-size:30px}
-  .section-card:not(:first-child) .sec-name{font-size:26px}
-  .sec-no{font-size:36px}
-  .card{padding:19px 19px;margin-bottom:18px}
-  .card h2{font-size:19px}
-  .section-card{padding:20px 20px}
-  .sec-name{font-size:20px}
+  body{padding:26px 10px 48px}
+
+  /* 页头：毛笔字缩小但保持气势 */
+  header.hero{padding:32px 10px 28px}
+  header.hero h1{font-size:54px;letter-spacing:.02em}
+  header.hero .sub{font-size:15px;margin-top:14px;line-height:1.7}
+  header.hero .sub::before{width:36px;margin-bottom:14px}
+  .kicker{font-size:9.5px;letter-spacing:.28em;margin-bottom:16px}
+
+  /* 板块卡：单列、紧凑 */
+  .sections{gap:10px;margin-bottom:18px}
+  .section-card{padding:20px 18px 16px}
+  .section-card:nth-child(1){padding:22px 18px 18px}
+  .sec-name{font-size:28px}
+  .section-card:not(:first-child) .sec-name{font-size:25px}
+  .sec-count{font-size:11.5px}
+  .sec-desc{font-size:13px}
+  .sec-no{font-size:34px;top:10px;right:14px}
+  .sec-preview{margin-top:14px;padding-top:12px;font-size:13.5px;line-height:1.65}
+  .sec-preview li{margin-bottom:7px;padding-left:14px}
+  .sec-arrow{font-size:12px;margin-top:12px}
+
+  /* 条目卡 */
+  .card{padding:18px 17px;margin-bottom:14px}
+  .card h2{font-size:17.5px;line-height:1.5}
+  .card p.brief{font-size:15px;margin-top:9px;line-height:1.7}
+  .card p.why{font-size:14px;margin-top:10px;padding:9px 12px}
+  .card .go{font-size:13px;margin-top:12px;padding:6px 13px}
+  .row{margin-bottom:10px}
+  .idx{min-width:24px;height:24px;font-size:12px}
+  .src{font-size:13px}
+  .time{font-size:12px}
+
+  /* 圆角略收 */
   .r-lg{border-radius:22px}
   .r-md{border-radius:18px}
   .r-sm{border-radius:14px}
-  footer.site{flex-direction:column;align-items:flex-start;gap:6px}
+
+  /* 导航标签：可横向滑动 */
+  .tabs{
+    padding:6px;gap:5px;flex-wrap:nowrap;overflow-x:auto;
+    justify-content:flex-start;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;
+    margin-bottom:16px;
+  }
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{padding:6px 13px;font-size:13.5px;flex:none}
+
+  /* 页脚 */
+  footer.site{
+    flex-direction:row;justify-content:space-between;align-items:center;
+    font-size:12.5px;padding:14px 16px;
+  }
+
+  /* 返回 / 归档 */
+  .back{font-size:13.5px;padding:7px 15px;margin-bottom:16px}
+  ul.arch a{padding:14px 16px;margin-bottom:11px;font-size:14.5px}
+  .empty{padding:48px 18px;font-size:15px}
+
+  /* 移动端关闭 hover 位移与跟随高光 */
   .card:hover,.glass:hover,.section-card:hover{transform:none;z-index:auto}
   .card::after{display:none}
 }
+
+/* 超小屏（iPhone SE 等） */
+@media(max-width:380px){
+  header.hero h1{font-size:44px}
+  header.hero .sub{font-size:13.5px}
+  .sec-name{font-size:25px}
+  .section-card:not(:first-child) .sec-name{font-size:23px}
+  .card h2{font-size:16px}
+  .card p.brief{font-size:14.5px}
+}
+
+/* 横屏手机 */
+@media(max-width:900px) and (orientation:landscape) and (max-height:500px){
+  body{padding:20px 12px 32px}
+  header.hero{padding:20px 10px}
+  header.hero h1{font-size:38px}
+  header.hero .sub{font-size:13px;margin-top:8px}
+  header.hero .sub::before{display:none}
+}
+
+/* 减少动画 */
+
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
   .card,.section-card{opacity:1!important}
@@ -361,56 +457,56 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255/.85)}
 <article class="glass card r-md">
 <div class="sheen"></div>
 <div class="row"><span class="idx">01</span>
-<span class="src">Phys.org</span><span class="time">1.3h 前</span></div>
-<h2><a href="https://phys.org/news/2026-10-ai-tool-microrna-sites-circular.html" target="_blank" rel="noopener">Researchers develop AI tool to map microRNA binding sites on circular RNAs</a></h2>
-<p class="brief">Circular RNAs (circRNAs) are loop-shaped molecules that can influence gene regul</p>
+<span class="src">科学网</span><span class="time">0.0h 前</span></div>
+<h2><a href="https://news.sciencenet.cn/htmlnews/2026/10/573477.shtm" target="_blank" rel="noopener">研究团队发现：两块六毛的老药有新用</a></h2>
+<p class="brief">急性肠梗阻、胃肠穿孔等急危重症发展到后期，常常会通向一个凶险的阶段：脓毒症休克</p>
 
-<a class="go" href="https://phys.org/news/2026-10-ai-tool-microrna-sites-circular.html" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+<a class="go" href="https://news.sciencenet.cn/htmlnews/2026/10/573477.shtm" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <article class="glass card r-md">
 <div class="sheen"></div>
 <div class="row"><span class="idx">02</span>
-<span class="src">Phys.org</span><span class="time">2.0h 前</span></div>
-<h2><a href="https://phys.org/news/2026-10-catalyst-sustainable-production-hydrogen-peroxide.html" target="_blank" rel="noopener">Light-activated catalyst makes sustainable production of hydrogen peroxide more efficient</a></h2>
-<p class="brief">Hydrogen peroxide (H₂O₂) is a versatile chemical feedstock whose industrial prod</p>
+<span class="src">科学网</span><span class="time">0.0h 前</span></div>
+<h2><a href="https://news.sciencenet.cn/htmlnews/2026/10/573496.shtm" target="_blank" rel="noopener">吴小龙：以人文经济“新范式”推动湾区高质量发展</a></h2>
+<p class="brief">“粤港澳大湾区建设正进入提质升级的关键阶段</p>
 
-<a class="go" href="https://phys.org/news/2026-10-catalyst-sustainable-production-hydrogen-peroxide.html" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+<a class="go" href="https://news.sciencenet.cn/htmlnews/2026/10/573496.shtm" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <article class="glass card r-md">
 <div class="sheen"></div>
 <div class="row"><span class="idx">03</span>
-<span class="src">Nautilus</span><span class="time">5.7h 前</span></div>
-<h2><a href="https://nautil.us/lsd-may-speed-up-brain-activity-and-make-it-fractal-1286030" target="_blank" rel="noopener">LSD May Speed Up Brain Activity and Make it Fractal</a></h2>
-<p class="brief">New study suggests a more complex reshuffling of experience Nautilus</p>
+<span class="src">Space.com</span><span class="time">0.2h 前</span></div>
+<h2><a href="https://www.space.com/space-exploration/satellites/space-debris-are-we-on-track-for-true-sustainability-op-ed" target="_blank" rel="noopener">Space debris: Are we on track for true sustainability? (op-ed)</a></h2>
+<p class="brief">Space is a critical infrastructure layer, underpinning nearly all systems that e</p>
 
-<a class="go" href="https://nautil.us/lsd-may-speed-up-brain-activity-and-make-it-fractal-1286030" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+<a class="go" href="https://www.space.com/space-exploration/satellites/space-debris-are-we-on-track-for-true-sustainability-op-ed" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <article class="glass card r-md">
 <div class="sheen"></div>
 <div class="row"><span class="idx">04</span>
-<span class="src">Space.com</span><span class="time">3.7h 前</span></div>
-<h2><a href="https://www.space.com/space-exploration/launches-spacecraft/europes-space-rider-vehicle-comes-crashing-down-during-drop-test" target="_blank" rel="noopener">Europe&#x27;s Space Rider vehicle comes crashing down during drop test</a></h2>
-<p class="brief">The full-scale prototype of Europe&#x27;s Space Rider orbiter failed to deploy its pa</p>
+<span class="src">Phys.org</span><span class="time">1.7h 前</span></div>
+<h2><a href="https://phys.org/news/2026-10-taiwan-typhoon-champi-approaches.html" target="_blank" rel="noopener">Taiwan shuts down as Typhoon Champi approaches</a></h2>
+<p class="brief">Most shops and schools were shut across Taiwan on Friday as Typhoon Champi neare</p>
 
-<a class="go" href="https://www.space.com/space-exploration/launches-spacecraft/europes-space-rider-vehicle-comes-crashing-down-during-drop-test" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+<a class="go" href="https://phys.org/news/2026-10-taiwan-typhoon-champi-approaches.html" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <article class="glass card r-md">
 <div class="sheen"></div>
 <div class="row"><span class="idx">05</span>
-<span class="src">Space.com</span><span class="time">5.2h 前</span></div>
-<h2><a href="https://www.space.com/space-exploration/satellites/after-starshield-interruption-ukraine-wants-to-build-its-own-satellite-communication-network-with-iceye-and-nokia" target="_blank" rel="noopener">After Starshield interruption, Ukraine wants to build its own satellite communication network with ICEYE and Nokia</a></h2>
-<p class="brief">Ukraine&#x27;s military just signed a letter of intent with Nokia and the Finnish sat</p>
+<span class="src">Phys.org</span><span class="time">1.9h 前</span></div>
+<h2><a href="https://phys.org/news/2026-10-europe-killer-summer-climate-blamed.html" target="_blank" rel="noopener">Europe&#x27;s killer heat this summer claims 50,000 lives. Climate change blamed for two-thirds of deaths</a></h2>
+<p class="brief">Blistering record heat in Europe this summer helped kill more than 50,000 people</p>
 
-<a class="go" href="https://www.space.com/space-exploration/satellites/after-starshield-interruption-ukraine-wants-to-build-its-own-satellite-communication-network-with-iceye-and-nokia" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+<a class="go" href="https://phys.org/news/2026-10-europe-killer-summer-climate-blamed.html" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <article class="glass card r-md">
 <div class="sheen"></div>
 <div class="row"><span class="idx">06</span>
-<span class="src">Smithsonian</span><span class="time">5.3h 前</span></div>
-<h2><a href="https://www.smithsonianmag.com/smart-news/this-mysterious-medieval-manuscript-has-stumped-scholars-for-well-over-a-century-could-its-pages-have-been-bound-out-of-order-this-whole-time-180989737" target="_blank" rel="noopener">This Mysterious Medieval Manuscript Has Stumped Scholars for Well Over a Century. Could Its Pages Have Been Bound Out of Order This Whole Time?</a></h2>
-<p class="brief">A new study claims that the pages of the Voynich Manuscript, thought to be writt</p>
+<span class="src">ScienceDaily</span><span class="time">6.6h 前</span></div>
+<h2><a href="https://www.sciencedaily.com/releases/2026/10/261021231241.htm" target="_blank" rel="noopener">40 years later, Chernobyl&#x27;s nuclear fallout is not what scientists expected</a></h2>
+<p class="brief">Forty years after the Chornobyl disaster, tiny radioactive particles still linge</p>
 
-<a class="go" href="https://www.smithsonianmag.com/smart-news/this-mysterious-medieval-manuscript-has-stumped-scholars-for-well-over-a-century-could-its-pages-have-been-bound-out-of-order-this-whole-time-180989737" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+<a class="go" href="https://www.sciencedaily.com/releases/2026/10/261021231241.htm" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <footer class="site glass r-sm">
 <span>10月23日 星期五 · 6 条</span>
