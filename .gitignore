@@ -11,3 +11,8 @@ venv/
 # 系统
 .DS_Store
 Thumbs.db
+
+# 临时文件（调试脚本、截图、下载的模板）
+_*
+*.png
+!docs/**/*.png
