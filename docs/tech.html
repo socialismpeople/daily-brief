@@ -175,12 +175,23 @@ header.hero .sub::before{
   font-size:13.5px;color:rgb(255 255 255/.55);line-height:1.55;
   letter-spacing:.02em;
 }
-/* 预览列表：只在主角卡显示 */
+/* 预览列表：默认收起，悬停展开 */
 .sec-preview{
+  max-height:0;overflow:hidden;
+  margin-top:0;padding-top:0;border-top:0;
+  font-size:14.5px;color:rgb(255 255 255/.7);line-height:1.7;
+  opacity:0;
+  transition:
+    max-height .5s cubic-bezier(.34,1.4,.5,1),
+    margin-top .4s ease,
+    padding-top .4s ease,
+    opacity .35s ease;
+}
+.section-card:hover .sec-preview{
+  max-height:220px;
   margin-top:18px;padding-top:16px;
   border-top:1px solid rgb(255 255 255/.09);
-  font-size:14.5px;color:rgb(255 255 255/.7);line-height:1.7;
-  flex:1;
+  opacity:1;
 }
 .sec-preview li{
   list-style:none;margin-bottom:9px;padding-left:16px;position:relative;
@@ -191,7 +202,6 @@ header.hero .sub::before{
   content:"";position:absolute;left:0;top:.72em;
   width:6px;height:1px;background:rgb(255 255 255/.32);
 }
-.section-card:not(:first-child) .sec-preview{display:none}
 
 /* 进入箭头 */
 .sec-arrow{
@@ -457,6 +467,15 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255/.85)}
 <article class="glass card r-md">
 <div class="sheen"></div>
 <div class="row"><span class="idx">01</span>
+<span class="src">36氪快讯</span><span class="time">0.2h 前</span></div>
+<h2><a href="https://www.36kr.com/newsflashes/4038310968808329" target="_blank" rel="noopener">国家信息化“十五五”规划：做精做细芯片成熟制程，提高先进制程制造能力</a></h2>
+<p class="brief">36氪获悉，近日，中央网络安全和信息化委员会印发《国家信息化“十五五”规划》</p>
+
+<a class="go" href="https://www.36kr.com/newsflashes/4038310968808329" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+</article>
+<article class="glass card r-md">
+<div class="sheen"></div>
+<div class="row"><span class="idx">02</span>
 <span class="src">InfoQ 中文</span><span class="time">0.0h 前</span></div>
 <h2><a href="https://www.infoq.cn/article/reksyo9EBAcP11Ns2GTO" target="_blank" rel="noopener">决策模型也有专用推理引擎了：StartLux 开源 Prism，单卡最高提速 5.3 倍</a></h2>
 
@@ -465,8 +484,8 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255/.85)}
 </article>
 <article class="glass card r-md">
 <div class="sheen"></div>
-<div class="row"><span class="idx">02</span>
-<span class="src">36氪快讯</span><span class="time">0.5h 前</span></div>
+<div class="row"><span class="idx">03</span>
+<span class="src">36氪快讯</span><span class="time">0.7h 前</span></div>
 <h2><a href="https://www.36kr.com/newsflashes/4038274265322370" target="_blank" rel="noopener">韩国央行行长称将调整政策，为高增长高利率环境做准备</a></h2>
 <p class="brief">韩国央行行长申铉松周五表示，韩国央行将调整货币政策，以适应未来经济增速与利率水平更高的环境，暗示该行将在一段时间内维持“鹰派”立场</p>
 
@@ -474,17 +493,8 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255/.85)}
 </article>
 <article class="glass card r-md">
 <div class="sheen"></div>
-<div class="row"><span class="idx">03</span>
-<span class="src">36氪快讯</span><span class="time">0.8h 前</span></div>
-<h2><a href="https://www.36kr.com/newsflashes/4038261817447297" target="_blank" rel="noopener">中国人民银行行长潘功胜会见彼得森国际经济研究所代表团</a></h2>
-<p class="brief">36氪获悉，中国人民银行行长潘功胜会见了彼得森国际经济研究所长亚当·波森、荷兰央行前行长克拉斯·诺特、韩国央行前行长李昌镛、国际货币基金组织前首席经济学家皮埃尔</p>
-
-<a class="go" href="https://www.36kr.com/newsflashes/4038261817447297" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
-</article>
-<article class="glass card r-md">
-<div class="sheen"></div>
 <div class="row"><span class="idx">04</span>
-<span class="src">钛媒体</span><span class="time">0.2h 前</span></div>
+<span class="src">钛媒体</span><span class="time">0.4h 前</span></div>
 <h2><a href="https://www.tmtpost.com/8179212.html" target="_blank" rel="noopener">OpenAI、字节开始下场做机器人，创业公司如何拿到“大结果”？</a></h2>
 <p class="brief">具身智能创业公司面对的已经不只是另一个竞争对手</p>
 
@@ -493,20 +503,20 @@ ul.arch a:hover .arrow{transform:translateX(4px);color:rgb(255 255 255/.85)}
 <article class="glass card r-md">
 <div class="sheen"></div>
 <div class="row"><span class="idx">05</span>
+<span class="src">极客公园</span><span class="time">11.9h 前</span></div>
+<h2><a href="http://www.geekpark.net/news/372763" target="_blank" rel="noopener">欧洲 AI，等来了黄仁勋</a></h2>
+<p class="brief">GTC 柏林开幕前的两周，半导体板块走得并不顺，费城半导体指数出现了 2008 年以来最长的一轮连跌</p>
+
+<a class="go" href="http://www.geekpark.net/news/372763" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
+</article>
+<article class="glass card r-md">
+<div class="sheen"></div>
+<div class="row"><span class="idx">06</span>
 <span class="src">InfoQ 中文</span><span class="time">0.0h 前</span></div>
 <h2><a href="https://www.infoq.cn/article/AkDgwN6h72cqUOJ35Zok" target="_blank" rel="noopener">AI Agent 正在改写 CPU 的价值：当 Token 变成行动，算力竞争不再只是拼 GPU</a></h2>
 
 
 <a class="go" href="https://www.infoq.cn/article/AkDgwN6h72cqUOJ35Zok" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
-</article>
-<article class="glass card r-md">
-<div class="sheen"></div>
-<div class="row"><span class="idx">06</span>
-<span class="src">钛媒体</span><span class="time">0.2h 前</span></div>
-<h2><a href="https://www.tmtpost.com/8179246.html" target="_blank" rel="noopener">“AI 对资本回报是破坏性的”——丘栋荣和黄仁勋，其实吵的不是同一件事</a></h2>
-<p class="brief">消失两年，丘栋荣一开口就说了反市场共识：低估值不是机会是雷</p>
-
-<a class="go" href="https://www.tmtpost.com/8179246.html" target="_blank" rel="noopener">阅读原文 <span>→</span></a>
 </article>
 <footer class="site glass r-sm">
 <span>10月23日 星期五 · 6 条</span>
